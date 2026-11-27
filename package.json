@@ -1,0 +1,12 @@
+{
+  "name": "sprint-analyzer-v5-2",
+  "version": "5.2.0",
+  "private": true,
+  "description": "Sprint Analyzer V5.2 AI ARM Fix on Render",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

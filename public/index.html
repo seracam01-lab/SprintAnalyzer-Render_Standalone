@@ -1,0 +1,573 @@
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b1b3a"><title>Sprint Analyzer V5.2 — AI ARM Fix</title><style>
+:root{--bg:#060c19;--navy:#101d37;--navy2:#152648;--line:#263b61;--gold:#f8c53a;--cyan:#47cafa;--green:#3de2a0;--red:#ff7182;--muted:#93a8c9}*{box-sizing:border-box}body{margin:0;font:14px system-ui,-apple-system,"Segoe UI",sans-serif;background:radial-gradient(ellipse at 35% -10%,#142f60 0%,transparent 50%),var(--bg);color:#eaf0ff}header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:15px 22px;border-bottom:1px solid var(--line);background:#080f20e8}.brand{display:flex;gap:12px;align-items:center}.brandmark{display:grid;place-items:center;background:linear-gradient(135deg,var(--gold),#ef953b);width:46px;height:46px;border-radius:12px;font-size:28px;color:#081022}h1{margin:0;font-size:22px;letter-spacing:1px;line-height:1.2}h1 span{color:var(--gold)}h1 small{display:block;color:var(--muted);font-size:10px;font-weight:600;letter-spacing:2px;margin-top:4px}.head-meta{display:flex;flex-wrap:wrap;gap:7px}.pill{padding:7px 11px;background:#112344;border:1px solid var(--line);border-radius:20px;font-size:12px;color:#cbdcf4}.workspace{max-width:1700px;margin:auto;padding:15px}main{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:14px}.left{min-width:0}.panel{background:linear-gradient(150deg,#122242,#0c1730);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 4px 25px #0002}.live-head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;margin-bottom:10px}.live-head strong{color:var(--gold);letter-spacing:1.4px}.sub{font-size:11px;color:var(--muted);font-weight:400;margin-left:9px}.live{color:#aebed4;font-weight:800;letter-spacing:1px;font-size:11px}#stage{position:relative;aspect-ratio:16/9;background:#03060d;border-radius:13px;overflow:hidden;border:2px solid #30466c;margin-bottom:14px}canvas{display:block;width:100%;height:100%;touch-action:none}video{display:none}.sectiontitle{font-weight:750;font-size:13px;letter-spacing:.6px;color:#d7e5fc;margin-bottom:12px}.sectiongap{margin-top:15px}.withside{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}.controls{display:flex;align-items:center;flex-wrap:wrap;gap:8px}.controls label{display:flex;align-items:center;gap:6px;color:#c9d6ed}button,input,select{font:inherit;color:#eef4ff;border:1px solid #36517c;background:#172c4f;border-radius:9px;padding:9px 11px;min-height:38px}button{cursor:pointer;font-weight:650;transition:background .12s,transform .12s}button:hover:not(:disabled){background:#294773;transform:translateY(-1px)}button:disabled{opacity:.4;cursor:not-allowed}.primary{background:var(--gold);border-color:var(--gold);color:#10151f}.primary:hover:not(:disabled){background:#ffde75}.danger{background:#7c263b;border-color:#a5465c}.accent{background:#115775;border-color:#338aaa}input[type=number]{width:74px}select{max-width:100%}.full{width:100%;margin-bottom:12px}.hint{margin:10px 0 0;color:var(--muted);font-size:12px;line-height:1.7}.eyebrow{text-align:center;color:var(--muted);font-size:11px;letter-spacing:2px;font-weight:750}#timer{text-align:center;color:var(--gold);font:750 clamp(34px,4vw,55px)/1.5 ui-monospace,Consolas,monospace;letter-spacing:-2px}.statusline{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px}#state{font-weight:800;color:var(--green);font-size:12px}#modeTag{font-size:11px;color:var(--muted);padding:3px 8px;border-radius:20px;border:1px solid var(--line)}#warn{color:#ffd0d7;min-height:18px;text-align:center;font-size:12px;line-height:1.5;margin-bottom:6px}.actions{display:grid;grid-template-columns:repeat(2,1fr);margin-bottom:12px}.actions button:last-child{grid-column:span 2}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:9px}.metrics>div{background:#0b1a32;border:1px solid #24395e;border-radius:10px;padding:11px;min-height:70px}.metrics span{display:block;color:var(--muted);font-size:11px;margin-bottom:7px}.metrics strong{font-size:19px;color:var(--cyan)}.tablewrap{max-height:290px;overflow:auto}table{width:100%;border-collapse:collapse;font-size:12px}th,td{border-bottom:1px solid #273c5e;padding:8px 6px;text-align:right}th:first-child,td:first-child{text-align:left}th{color:var(--muted);font-weight:600;position:sticky;top:0;background:#132342}.shots{display:flex;gap:7px;overflow-x:auto}.shots img{height:72px;border-radius:7px;border:1px solid var(--line)}.history{overflow:auto;max-height:300px}.history button{font-size:11px;min-height:26px;padding:4px 8px}.empty{color:var(--muted);font-size:12px;text-align:center;padding:18px}footer{text-align:center;padding:20px;color:var(--muted);font-size:11px}@media(max-width:1000px){main{grid-template-columns:1fr}aside{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}aside .panel{margin:0}}@media(max-width:620px){header{padding:11px}.workspace{padding:9px}aside{display:block}aside .panel{margin-bottom:12px}.panel{padding:12px}#timer{font-size:45px}.head-meta{gap:4px}.pill{font-size:10px;padding:5px 7px}}@media print{body{background:#fff;color:#000}header,#stage,.live-head,.controls,footer,#warn,video,.hint,#shots{display:none!important}.workspace{padding:0}main,aside{display:block}.panel{box-shadow:none;background:#fff;color:#111;border:1px solid #aaa}.metrics strong{color:#111}.metrics>div{border:1px solid #aaa;background:#fff}.history button{display:none}th{background:#fff;color:#111}#timer{color:#000}}
+
+.source-panel{border-color:#486b9d}.source-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:12px}.source-tabs button{min-height:49px}.source-tabs .source-active{background:#f8c53a;color:#081225;border-color:#f8c53a}.source-tools{padding:8px;background:#0a1932;border-radius:10px}.source-tools[hidden]{display:none}input[type=file]{max-width:260px;font-size:12px}.source-panel input[type=number]{width:73px}@media(max-width:650px){.source-tabs{grid-template-columns:1fr}.source-panel input[type=file]{width:100%}}
+
+/* V4.2 target planner */
+.goal-panel{border-color:#51739e}.goal-inputs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin:15px 0}.goal-inputs label{display:flex;flex-direction:column;gap:6px;color:#bfd1ed;font-size:12px}.goal-inputs input{width:100%;min-width:0}.goal-metrics strong{font-size:17px}.goal-metrics div:last-child strong{font-size:14px}.goal-error{color:#ff9ca5;min-height:16px;font-size:12px}.goal-table{max-height:220px}.goal-met{color:#3de2a0!important}.goal-missed{color:#ff9ca5!important}@media(max-width:390px){.goal-inputs{grid-template-columns:1fr}}
+
+/* V4.6 Acceleration Lab */
+.accel-panel{border-color:#b38b32}.accel-option{display:flex;align-items:center;gap:9px;margin:12px 0;color:#c6d7f1;font-size:12px;line-height:1.5}.accel-option input{width:17px;height:17px;min-height:0;accent-color:#f8c53a}.accel-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:13px 0}.accel-summary>div{background:#0a1a35;border:1px solid #294368;border-radius:9px;padding:10px}.accel-summary span{display:block;color:#93a8c9;font-size:11px}.accel-summary strong{display:block;font-size:16px;margin-top:5px;color:#47cafa}.accel-chart-box{background:#07142c;border:1px solid #263b61;border-radius:10px;padding:10px;margin:10px 0}.accel-chart-label{color:#d8e7fc;font-weight:700;font-size:12px;margin:2px 0 8px}.metric-graph{display:block;width:100%;height:205px;touch-action:auto}.accel-table{max-height:220px}.accel-table td,.accel-table th{font-variant-numeric:tabular-nums}@media(max-width:480px){.accel-summary{grid-template-columns:1fr}.metric-graph{height:180px}}
+@media print{.accel-panel{break-inside:avoid}.metric-graph{height:175px}.accel-option,#bAccelCsv{display:none}}
+
+</style></head><body><div id="v5-return" style="position:fixed;z-index:2147483646;right:12px;top:12px;display:flex;align-items:center;gap:8px;pointer-events:auto"><a href="/" style="background:#f4be28;color:#111a2f;border-radius:24px;padding:9px 14px;font:700 13px system-ui;text-decoration:none;box-shadow:0 2px 12px #0008">⌂ เมนู V5.0</a></div>
+<header><div class="brand"><div class="brandmark">⚡</div><div><h1>SPRINT <span>ANALYZER</span><small>V4.7.1 · FIXED SINGLE FILE</small></h1></div></div><div class="head-meta"><span class="pill" id="pcam">กล้อง: ปิด</span><span class="pill" id="pfps">FPS: –</span><span class="pill" id="pdist">10 เมตร</span><span class="pill" id="pai">AI: ยังไม่พร้อม</span></div></header>
+<div class="workspace"><main><section class="left">
+<div class="panel live-head"><div><strong>LIVE TRACKING</strong><span class="sub">กล้องด้านข้างสนาม • นักวิ่ง 1 คน</span></div><span id="liveIndicator" class="live">● CAMERA OFF</span></div>
+<div class="panel source-panel"><div class="sectiontitle">เลือกแหล่งทดสอบ (3 โหมด)</div><div class="source-tabs"><button id="sourceSimulation" class="source-active">🏃 จำลองนักวิ่ง</button><button id="sourceVideo">🎬 อัปโหลด MP4 / WebM</button><button id="sourceCamera">📷 กล้องสด</button></div><div id="simulationTools" class="source-tools"><div class="controls"><label>เวลาวิ่งเป้าหมาย <input id="simDuration" type="number" min="3" max="60" step="0.5" value="7"> วินาที</label><button class="primary" id="bSimStart">▶ เริ่มจำลอง</button><button id="bSimPause">⏸ หยุดจำลอง</button></div><p class="hint">โหมดจำลองไม่ต้องมีกล้องหรืออินเทอร์เน็ต • เวลา/ความเร็วเป็นข้อมูลสังเคราะห์สำหรับตรวจสอบระบบเท่านั้น ห้ามใช้เป็นผลนักกีฬาจริง</p></div><div id="videoTools" class="source-tools" hidden><div class="controls"><label>เลือกไฟล์วิดีโอ <input id="videoFile" type="file" accept="video/mp4,video/webm,video/*"></label><button id="bVideoPlay">▶ เล่น / หยุด</button><button id="bVideoRestart">↺ เล่นตั้งแต่ต้น</button></div><p class="hint" id="videoInfo">เลือกวิดีโอที่เห็นผู้วิ่งด้านข้างและวางเส้นก่อนเริ่มทดสอบ • เวลาอ้างอิงจากวิดีโอ • AI ต้องโหลดผ่านอินเทอร์เน็ตครั้งแรก</p></div><div id="cameraTools" class="source-tools" hidden><p class="hint">เปิดกล้องสดจากด้านข้างสนาม และ ARM ก่อนนักวิ่งผ่านเส้น START</p></div></div><div id="stage"><canvas id="cv" width="960" height="540"></canvas></div><video id="vid" playsinline muted></video>
+<div class="panel" id="cameraSettings"><div class="sectiontitle">ตั้งค่ากล้อง</div><div class="controls"><button id="bCam" class="primary">◉ เปิดกล้อง</button><button id="bSw">⇄ สลับกล้อง</button><select id="dev" aria-label="เลือกกล้อง"><option value="">กล้องอัตโนมัติ</option></select><select id="res" aria-label="ความละเอียด"><option value="640x360">640×360</option><option selected value="1280x720">1280×720</option><option value="1920x1080">1920×1080</option></select><select id="fps" aria-label="FPS"><option value="30" selected>30 FPS</option><option value="60">60 FPS</option></select></div>
+<div class="sectiontitle sectiongap">ตั้งค่าสนามวิ่ง</div><div class="controls"><label>ระยะสนาม <input id="dist" type="number" min="10" max="50" value="10"> เมตร</label><button id="bFlip">⇄ สลับ START / FINISH</button><button id="bTick">เส้นทุก 1 ม.</button><button id="bClr">ล้างค่าสนาม</button><button id="bFull">⛶ เต็มจอ</button></div><p class="hint">ลากจุดสีเขียวและสีแดงบนภาพให้ตรงกับเส้นสนามจริง • การแบ่งทุกเมตรเป็นการประมาณเชิงภาพ ยังไม่ได้ชดเชยมุม Perspective • ตั้งกล้องให้นิ่ง • กล้องสดแสดงแนวนอน 16:9 เสมอ ควรหมุนโทรศัพท์เป็นแนวนอนก่อนเปิดกล้อง หากภาพต้นทางเป็นแนวตั้ง ระบบจะแสดงขอบดำโดยไม่ตัดภาพนักวิ่ง</p></div>
+<div class="panel"><div class="sectiontitle withside">ประวัติการทดสอบ <div class="controls"><button id="bCsv">ส่งออก CSV</button><button id="bPdf">พิมพ์ / PDF</button></div></div><div id="hist" class="history"></div></div>
+</section><aside>
+<div class="panel stats mainstats"><div class="eyebrow">SPRINT TIMER</div><div id="timer">00:00.000</div><div class="statusline"><span id="state">IDLE</span><span id="modeTag">ผ่านเส้น START</span></div><div id="warn" role="status"></div><div class="sectiontitle">รูปแบบการจับเวลา</div><select id="mode" class="full"><option value="line">โหมด A • เริ่มเมื่อผ่านเส้น START</option><option value="signal">โหมด B • เสียงปล่อยตัว / หยุดเมื่อผ่าน FINISH</option></select>
+<div class="controls actions"><button class="primary" id="bArm">เตรียม ARM</button><button class="accent" id="bSignal" disabled>🔊 ปล่อยตัว</button><button id="bMan">เริ่มด้วยมือ</button><button class="danger" id="bStop">หยุด</button><button id="bRst">รีเซ็ต</button><button id="bRec">● บันทึกวิดีโอ</button><button class="primary" id="bSave">บันทึกผล</button></div><input id="name" class="full" placeholder="ชื่อนักวิ่ง" aria-label="ชื่อนักวิ่ง"></div>
+<div class="panel"><div class="sectiontitle">PERFORMANCE METRICS</div><div class="metrics"><div><span>ความเร็วเฉลี่ย</span><strong id="vAvg">–</strong></div><div><span>จำนวนก้าว (ประมาณ)</span><strong id="vSt">–</strong></div><div><span>ความถี่ก้าว (ประมาณ)</span><strong id="vCad">–</strong></div><div><span>ความยาวก้าวเฉลี่ย (ประมาณ)</span><strong id="vSl">–</strong></div><div><span>มุมเข่าซ้าย</span><strong id="vKl">–</strong></div><div><span>มุมเข่าขวา</span><strong id="vKr">–</strong></div><div><span>ความเร็วช่วงสูงสุด (ประมาณ)</span><strong id="vMax">–</strong></div></div></div>
+<div class="panel goal-panel" id="goalPanel"><div class="sectiontitle">🎯 วางแผนเป้าหมาย / เปรียบเทียบผลการวิ่ง</div>
+<p class="hint">กำหนดเวลาที่ต้องการและความยาวก้าวเฉลี่ยที่คาดว่าจะทำได้ ระบบจะคำนวณความเร็ว จำนวนก้าว และความถี่ก้าวที่ต้องใช้ (เป็นการประมาณ ไม่ใช่คำแนะนำว่าต้องเพิ่มก้าวตามค่านั้นเสมอ)</p>
+<div class="goal-inputs"><label>เวลาเป้าหมาย (วินาที) <input id="goalTime" type="number" min="0.1" max="3600" step="0.1" value="5.0"></label><label>ความยาวก้าวที่คาดหวัง (เมตร/ก้าว) <input id="goalStepLength" type="number" min="0.2" max="4" step="0.05" value="1.5"></label><label>เวลาเป้าหมายต่อ 1 เมตร (วินาที) <input id="goalPerMeter" type="number" min="0.01" max="120" step="0.01" value="0.50"></label></div>
+<div id="goalError" class="goal-error" role="status"></div>
+<div class="metrics goal-metrics"><div><span>ความเร็วเป้าหมาย</span><strong id="goalSpeed">–</strong></div><div><span>เวลาต่อ 1 เมตร</span><strong id="goalPace">–</strong></div><div><span>จำนวนก้าวที่คาดการณ์</span><strong id="goalSteps">–</strong></div><div><span>ความถี่ก้าวที่ต้องใช้</span><strong id="goalCadence">–</strong></div><div><span>ความยาวก้าวเฉลี่ยที่ตั้งไว้</span><strong id="goalStride">–</strong></div><div><span>เทียบกับผลล่าสุด</span><strong id="goalCompare">ยังไม่มีผล</strong></div></div>
+<div class="sectiontitle sectiongap">เทียบเป้าหมายกับผลตามระยะทุกเมตร</div>
+<div class="tablewrap goal-table"><table><thead><tr><th>เมตร</th><th>เป้าหมายสะสม (วินาที)</th><th>ที่จับได้ (วินาที)</th><th>ต่างกัน (วินาที)</th></tr></thead><tbody id="goalSplits"></tbody></table></div>
+<p class="hint">ตัวเลขก้าว/ความถี่คำนวณจากความยาวก้าวสมมติแบบคงที่ ผู้วิ่งจริงมีการเร่งความเร็วและความยาวก้าวเปลี่ยนไปตามช่วงทาง • ผลจากโหมดจำลองไม่ใช่ผลนักกีฬาจริง</p></div>
+<div class="panel"><div class="sectiontitle">SPLIT TIMES <span class="sub">ประมาณจากพิกัดภาพ</span></div><div class="tablewrap"><table><thead><tr><th>ระยะ</th><th>สะสม</th><th>ช่วง</th><th>กม./ชม.</th></tr></thead><tbody id="spl"></tbody></table></div></div>
+<div class="panel accel-panel" id="accelPanel">
+<div class="sectiontitle withside"><span>📈 ACCELERATION LAB · ความเร็วและอัตราเร่ง ตั้งแต่ 0 เมตรถึงเส้นชัย</span><button id="bAccelCsv">ส่งออกกราฟ CSV</button></div>
+<p class="hint">กราฟความเร็วเป็นความเร็วเฉลี่ยในแต่ละช่วง 1 เมตร (km/h) ไม่ใช่ความเร็วขณะใดขณะหนึ่ง; กราฟอัตราเร่งเป็นค่าประมาณจากความต่างของความเร็วระหว่างช่วงติดกัน (m/s²) จะแสดงเมื่อมีเวลา Split ต่อเนื่องเท่านั้น</p>
+<label class="accel-option"><input type="checkbox" id="startAtRest"> สมมติว่าเริ่มจากหยุดนิ่ง (ความเร็วต้น 0 km/h) เพื่อแสดงจุดเริ่มกราฟและประมาณอัตราเร่งช่วง 0–1 เมตร <strong>ไม่ใช่ข้อมูลที่วัดจริง</strong></label>
+<div class="accel-summary"><div><span>ความเร็วช่วงสูงสุด</span><strong id="accelPeakSpeed">–</strong></div><div><span>อัตราเร่งสูงสุด (ประมาณ)</span><strong id="accelPeak">–</strong></div><div><span>ช่วงที่วัดความเร็วได้</span><strong id="accelCoverage">–</strong></div></div>
+<div class="accel-chart-box"><div class="accel-chart-label">ความเร็วเฉลี่ยในแต่ละช่วง 1 เมตร · km/h</div><canvas id="speedGraph" class="metric-graph" role="img" aria-label="กราฟความเร็วตามระยะทาง"></canvas></div>
+<div class="accel-chart-box"><div class="accel-chart-label">อัตราเร่งโดยประมาณระหว่างช่วง · m/s²</div><canvas id="accelGraph" class="metric-graph" role="img" aria-label="กราฟอัตราเร่งตามระยะทาง"></canvas></div>
+<div class="sectiontitle sectiongap">⏱ กราฟตั้งแต่เวลา 0 วินาทีจนถึงจบการวิ่ง</div>
+<p class="hint">เส้นกราฟแสดงค่าที่คำนวณจากแต่ละช่วง 1 เมตรตามเวลาเฉลี่ยของช่วงนั้น ไม่ใช่ค่าความเร็วหรืออัตราเร่ง ณ ทุกเสี้ยววินาที</p>
+<div class="accel-chart-box"><div class="accel-chart-label">ความเร็วเฉลี่ยรายช่วงตามเวลา · km/h</div><canvas id="speedTimeGraph" class="metric-graph" role="img" aria-label="กราฟความเร็วเทียบเวลาวิ่ง"></canvas></div>
+<div class="accel-chart-box"><div class="accel-chart-label">อัตราเร่งโดยประมาณตามเวลา · m/s²</div><canvas id="accelTimeGraph" class="metric-graph" role="img" aria-label="กราฟอัตราเร่งเทียบเวลาวิ่ง"></canvas></div>
+<div class="accel-summary"><div><span>ช่วงความเร็วสูงสุด</span><strong id="phaseFast">–</strong></div><div><span>ช่วงที่เร่ง</span><strong id="phaseAccelerating">–</strong></div><div><span>ช่วงที่ชะลอ</span><strong id="phaseSlowing">–</strong></div><div><span>ช่วงทรงตัว (±0.15 m/s²)</span><strong id="phaseStable">–</strong></div></div>
+<p class="hint" id="phaseNote">ยังไม่มีข้อมูล</p>
+<div class="tablewrap accel-table"><table><thead><tr><th>ระยะ</th><th>เวลาแต่ละเมตร (s)</th><th>ความเร็ว (km/h)</th><th>อัตราเร่ง (m/s²)</th></tr></thead><tbody id="accelRows"></tbody></table></div>
+<p class="hint" id="accelQuality">ยังไม่มีข้อมูล Split Time • ทดลองด้วยโหมดจำลองได้ทันที</p>
+</div>
+<div class="panel"><div class="sectiontitle">HIP & LEG MOTION · มุมยกต้นขาและเหยียดเข่า</div><p class="hint">แสดงมุมต้นขาเทียบแนวดิ่งของภาพ (ค่าบวกเอียงไปทางขวาของภาพ) และมุมเหยียดเข่า = 180° − มุมเข่าภายใน มุมเหล่านี้เป็นเพียงค่า 2 มิติจากภาพกล้องด้านข้าง ไม่ใช่การวัดสัมผัสพื้นจริง</p><div class="metrics"><div><span>ต้นขาซ้ายเทียบแนวดิ่ง (2D)</span><strong id="vThighL">–</strong></div><div><span>ต้นขาขวาเทียบแนวดิ่ง (2D)</span><strong id="vThighR">–</strong></div><div><span>มุมเหยียดเข่าซ้าย (2D)</span><strong id="vExtendL">–</strong></div><div><span>มุมเหยียดเข่าขวา (2D)</span><strong id="vExtendR">–</strong></div></div><p class="hint" id="gaitCompare">ยังไม่มีข้อมูลก้าวจาก AI</p></div>
+<div class="panel"><div class="sectiontitle">LEG ANGLE TRACKING · มุมขาแต่ละก้าว</div><p class="hint">จุดสะโพก–เข่า–ข้อเท้า เชื่อมเส้นสีฟ้า (ซ้าย) และชมพู (ขวา) พร้อมส่วนโค้งมุมเข่าในภาพสดหรือวิดีโอ ค่าที่แสดงเป็นมุม 2 มิติจากกล้องด้านข้าง</p><div class="row"><button id="bLegAngles">● แสดงมุมขา</button><button id="bStepCsv">ดาวน์โหลดตารางมุมก้าว CSV</button></div><div style="overflow:auto;max-height:250px"><table><thead><tr><th>ก้าว</th><th>เวลา</th><th>ขา (ประมาณ)</th><th>เข่าซ้าย</th><th>เข่าขวา</th><th>ต้นขา ณ ก้าว</th><th>ยกต้นขาสูงสุดในช่วง</th><th>เหยียดเข่า ณ ก้าว</th><th>เหยียดเข่าสูงสุดในช่วง</th></tr></thead><tbody id="stepAngles"></tbody></table></div><small>ตารางบันทึกทั้งมุม ณ เหตุการณ์นับก้าวและค่าสูงสุดในช่วงระหว่างเหตุการณ์ที่ตรวจพบ ไม่ใช่มุมสัมผัสพื้นโดยตรง การระบุขาซ้าย/ขวาเป็นการประมาณและต้องตรวจสอบจากวิดีโอจริง โหมดจำลองไม่มีข้อมูลมุมเข่าจริง</small></div>
+<div class="panel"><div class="sectiontitle">FOOT STRIKE LAB · ตรวจจังหวะเท้าโดยประมาณ</div><p class="hint">ลากจุดสีเขียวอ่อน 2 จุดบนภาพให้ตรงกับระดับพื้นสนาม (หลังเลือกกล้องสดหรือวิดีโอ) ระบบใช้ตำแหน่งส้นเท้า/ปลายเท้าและการขยับในแนวดิ่งเพื่อประมาณช่วงลงเท้าและยกเท้า ไม่ใช่การตรวจว่าฝ่าเท้าสัมผัสพื้นจริง และไม่ใช่เครื่องวัด Ground Contact Time มาตรฐาน</p><div class="controls"><button id="bGround">● แสดงเส้นพื้น</button><button id="bGroundReset">↺ ตั้งเส้นพื้นใหม่</button><button id="bFootCsv">ส่งออกเหตุการณ์เท้า CSV</button></div><p class="hint" id="footSummary">ยังไม่มีเหตุการณ์เท้าจาก AI</p><div class="tablewrap" style="max-height:260px"><table><thead><tr><th>เวลา</th><th>ขา</th><th>เหตุการณ์ (ประมาณ)</th><th>มุมเข่า 2D</th><th>มุมต้นขา 2D</th><th>ช่วงเท้าใกล้พื้น (ประมาณ)</th></tr></thead><tbody id="footEvents"></tbody></table></div><small>ผลจะปรากฏเฉพาะโหมดกล้อง/วิดีโอเมื่อ AI โหลดสำเร็จและเริ่มการวิ่งแล้ว • โหมดจำลองไม่มีการวัดจังหวะเท้า • ควรวางกล้องด้านข้างในระดับใกล้เคียงพื้นสนาม</small></div>
+<div class="panel"><div class="sectiontitle">ภาพช่วงก้าว (สูงสุด 30 ภาพ)</div><div id="shots" class="shots"></div></div>
+</aside></main></div>
+<footer>SPRINT ANALYZER V4.7 · ระบบทดลองสำหรับการฝึกซ้อม ไม่ใช่อุปกรณ์จับเวลามาตรฐานการแข่งขัน · ต้องเปิดผ่าน HTTPS หรือ localhost เพื่อใช้งานกล้อง</footer>
+<script>
+// === timing.mjs ===
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+const fmt=ms=>{ms=Math.max(0,ms||0);const m=Math.floor(ms/60000),s=Math.floor(ms%60000/1000);return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}.${String(Math.floor(ms%1000)).padStart(3,'0')}`};
+function crossing(a,b,level,maxGap=800,maxJump=.85){
+ if(!a||!b||!Number.isFinite(a.p)||!Number.isFinite(b.p)||b.t<=a.t||b.t-a.t>maxGap||b.p-a.p>maxJump||b.p<=a.p)return null;
+ if(!(a.p<=level && b.p>=level))return null;
+ const f=(level-a.p)/(b.p-a.p);
+ return a.t+f*(b.t-a.t);
+}
+class SprintClock{
+ constructor(){this.reset()}
+ reset(){this.state='IDLE';this.mode='line';this.startAt=null;this.endAt=null;this.manualFinish=false;this.splits={};this.error=null;this.last=null}
+ arm(mode='line'){this.reset();this.mode=mode;this.state='ARMED'}
+ signal(time){if(this.state!=='ARMED'||this.mode!=='signal')return false;this.startAt=time;this.state='RUNNING';return true}
+ manualStart(time){this.arm('manual');this.startAt=time;this.state='RUNNING'}
+ feed(p,t,distance){if(!['ARMED','RUNNING'].includes(this.state))return;const now={p,t};const old=this.last;this.last=now;
+  if(this.state==='ARMED'&&this.mode==='line'){
+   const at=crossing(old,now,0);
+   if(at!==null){this.startAt=at;this.state='RUNNING'}
+  }
+  if(this.state!=='RUNNING')return;
+  for(let k=1;k<=distance;k++){
+   if(this.splits[k]!==undefined)continue;
+   const at=crossing(old,now,k/distance);
+   if(at!==null&&at>=this.startAt)this.splits[k]=at;
+  }
+  if(this.splits[distance]!==undefined){this.endAt=this.splits[distance];this.state='FINISHED'}
+ }
+ manualStop(time){if(this.state!=='RUNNING')return false;this.endAt=time;this.manualFinish=true;this.state='FINISHED';return true}
+ elapsed(time){if(this.startAt===null)return 0;return Math.max(0,(this.endAt??time)-this.startAt)}
+}
+function angle(a,b,c){const u={x:a.x-b.x,y:a.y-b.y},v={x:c.x-b.x,y:c.y-b.y};const lu=Math.hypot(u.x,u.y),lv=Math.hypot(v.x,v.y);if(lu<1e-8||lv<1e-8)return null;return Math.acos(clamp((u.x*v.x+u.y*v.y)/(lu*lv),-1,1))*180/Math.PI}
+function distanceProgress(p,L,W,H){
+ const px=q=>({x:q.x*W,y:q.y*H}),mid=(a,b)=>({x:(a.x+b.x)/2,y:(a.y+b.y)/2});
+ const signed=(p,a,b)=>{let dx=b.x-a.x,dy=b.y-a.y;const len=Math.hypot(dx,dy);return len<1e-7?NaN:((p.x-a.x)*dy-(p.y-a.y)*dx)/len};
+ const sA=px(L.sA),sB=px(L.sB),fA=px(L.fA),fB=px(L.fB);
+ const sg=Math.sign(signed(mid(fA,fB),sA,sB))||1;
+ const fg=Math.sign(signed(mid(sA,sB),fA,fB))||1;
+ const ds=sg*signed(p,sA,sB),df=fg*signed(p,fA,fB);const den=ds+df;
+ return Number.isFinite(den)&&den>1e-6?ds/den:NaN;
+}
+
+// === goals.mjs ===
+// Goal planning uses an explicitly assumed average step length (not a measured biomechanical model).
+const toKmH = metresPerSecond => metresPerSecond * 3.6;
+function calculateGoal(distance, seconds, stepLength) {
+  if (![distance,seconds,stepLength].every(Number.isFinite) || distance<=0 || seconds<=0 || stepLength<=0) return null;
+  const speedMps=distance/seconds;
+  const estimatedSteps=distance/stepLength;
+  return {distance,seconds,stepLength,speedKmh:toKmH(speedMps),secondsPerMeter:seconds/distance,estimatedSteps,estimatedCadence:estimatedSteps*60/seconds};
+}
+function goalSplits(distance,seconds,actual={}) {
+  if (!Number.isInteger(distance)||distance<1||!Number.isFinite(seconds)||seconds<=0) return [];
+  return Array.from({length:distance},(_,index)=>{
+    const meter=index+1,targetSeconds=seconds*meter/distance,actualSeconds=Number.isFinite(actual[meter])?actual[meter]:null;
+    return {meter,targetSeconds,actualSeconds,difference:actualSeconds===null?null:actualSeconds-targetSeconds};
+  });
+}
+
+// === gait.mjs ===
+// 2D image-plane kinematics. These are estimates, not 3D biomechanics.
+function thighAngle(hip,knee){
+ if(!hip||!knee)return null;
+ const dx=knee.x-hip.x, dy=knee.y-hip.y;
+ if(!Number.isFinite(dx)||!Number.isFinite(dy)||Math.hypot(dx,dy)<1e-8)return null;
+ // Signed from image vertical downward; positive to image-right, negative left.
+ return Math.atan2(dx,dy)*180/Math.PI;
+}
+function kneeExtension(kneeInterior){
+ return Number.isFinite(kneeInterior)&&kneeInterior>=0&&kneeInterior<=180 ? 180-kneeInterior : null;
+}
+function computeLegMetrics(landmarks, angleFn, confidence=.55){
+ const usable=i=>landmarks?.[i]&&Number.isFinite(landmarks[i].x)&&Number.isFinite(landmarks[i].y)&&(landmarks[i].visibility??1)>=confidence;
+ function leg(hi,ki,ai){
+  const hip=usable(hi)?landmarks[hi]:null, knee=usable(ki)?landmarks[ki]:null, ankle=usable(ai)?landmarks[ai]:null;
+  const kneeAngle=hip&&knee&&ankle?angleFn(hip,knee,ankle):null;
+  const thigh=hip&&knee?thighAngle(hip,knee):null;
+  return {kneeAngle:Number.isFinite(kneeAngle)?kneeAngle:null,extension:kneeExtension(kneeAngle),thigh,thighMagnitude:thigh===null?null:Math.abs(thigh)};
+ }
+ return {left:leg(23,25,27),right:leg(24,26,28)};
+}
+function freshStrideRange(){return {left:{maxThigh:null,minKnee:null,maxExtension:null},right:{maxThigh:null,minKnee:null,maxExtension:null}}}
+function accumulateStride(range,metrics){
+ for(const side of ['left','right']){
+  const r=range[side],m=metrics[side];
+  if(m.thighMagnitude!==null)r.maxThigh=r.maxThigh===null?m.thighMagnitude:Math.max(r.maxThigh,m.thighMagnitude);
+  if(m.kneeAngle!==null)r.minKnee=r.minKnee===null?m.kneeAngle:Math.min(r.minKnee,m.kneeAngle);
+  if(m.extension!==null)r.maxExtension=r.maxExtension===null?m.extension:Math.max(r.maxExtension,m.extension);
+ }
+ return range;
+}
+function summarizeSteps(records){
+ const out={left:{n:0,thighSum:0,kneeSum:0},right:{n:0,thighSum:0,kneeSum:0}};
+ for(const r of records){const side=r.sideKey;if(!out[side])continue;
+  const thigh=r.peakThighDeg,knee=r.kneeAtStepDeg;
+  if(Number.isFinite(thigh)){out[side].n++;out[side].thighSum+=thigh}
+  if(Number.isFinite(knee)){out[side].kneeSum+=knee;out[side].kneeCount=(out[side].kneeCount??0)+1}
+ }
+ return Object.fromEntries(Object.entries(out).map(([side,r])=>[side,{steps:r.n,avgThigh:r.n?r.thighSum/r.n:null,avgKnee:r.kneeCount?r.kneeSum/r.kneeCount:null}]));
+}
+
+// === footstrike.mjs ===
+// Side-view 2D IMAGE HEURISTIC ONLY. Contact estimates are not ground reaction measurements.
+// A manually placed reference line is required. All inputs use normalized image coordinates.
+const newFootState=()=>({left:{phase:'unknown',smoothY:null,lastTime:null,contactAt:null,contactKnee:null,contactThigh:null,lastChange:-Infinity},right:{phase:'unknown',smoothY:null,lastTime:null,contactAt:null,contactKnee:null,contactThigh:null,lastChange:-Infinity}});
+function groundY(x,ground){if(!ground||!Number.isFinite(x))return null;const a=ground.a,b=ground.b;if(!a||!b||Math.abs(b.x-a.x)<.03)return null;const fraction=(x-a.x)/(b.x-a.x);return a.y+(b.y-a.y)*fraction}
+function updateFootPhases(state,landmarks,t,ground,legMetrics,options={}){
+ const events=[];if(!Number.isFinite(t))return events;
+ const conf=options.confidence??.60, near=options.near??.035, far=options.far??.055, dwell=options.dwell??110;
+ for(const [side,ids] of Object.entries({left:[27,29,31],right:[28,30,32]})){
+  const s=state[side],valid=i=>{const p=landmarks?.[i];return p&&Number.isFinite(p.x)&&Number.isFinite(p.y)&&(p.visibility??0)>=conf};
+  // Require at least two distinct foot landmarks, including heel or toe.
+  const pts=ids.filter(valid).map(i=>landmarks[i]);
+  if(pts.length<2||(!valid(ids[1])&&!valid(ids[2]))){s.phase='unknown';s.smoothY=null;s.lastTime=null;continue}
+  const foot={x:pts.reduce((v,p)=>v+p.x,0)/pts.length,y:Math.max(...pts.map(p=>p.y))};
+  const gy=groundY(foot.x,ground);if(!Number.isFinite(gy)){s.phase='unknown';s.smoothY=null;s.lastTime=null;continue}
+  if(s.lastTime!==null&&(t<=s.lastTime||t-s.lastTime>350)){s.phase='unknown';s.smoothY=null}
+  s.smoothY=s.smoothY===null?foot.y:s.smoothY*.55+foot.y*.45;
+  const gap=gy-s.smoothY;
+  const next=s.phase==='stance'?(gap>far?'swing':'stance'):(gap<near?'stance':'swing');
+  const previous=s.phase;
+  if(previous==='unknown')s.phase=next;
+  else if(next!==previous&&t-s.lastChange>=dwell){
+   s.phase=next;s.lastChange=t;
+   const event={side,type:next==='stance'?'contact_candidate':'toeoff_candidate',t,footX:foot.x,footY:s.smoothY,groundY:gy,gap,confidence:'estimated',kneeDeg:legMetrics?.[side]?.kneeAngle??null,thighDeg:legMetrics?.[side]?.thigh??null};
+   if(event.type==='contact_candidate'){s.contactAt=t;s.contactKnee=event.kneeDeg;s.contactThigh=event.thighDeg}
+   else if(s.contactAt!==null){event.estimatedContactMs=t-s.contactAt;event.contactKneeDeg=s.contactKnee;event.contactThighDeg=s.contactThigh;s.contactAt=null}
+   events.push(event);
+  }
+  s.lastTime=t;
+ }
+ return events;
+}
+function footPhaseSummary(events){const result={left:{contacts:0,toeoffs:0,stanceMs:[]},right:{contacts:0,toeoffs:0,stanceMs:[]}};for(const e of events){const r=result[e.side];if(!r)continue;if(e.type==='contact_candidate')r.contacts++;else{r.toeoffs++;if(Number.isFinite(e.estimatedContactMs)&&e.estimatedContactMs>0)r.stanceMs.push(e.estimatedContactMs)}}return Object.fromEntries(Object.entries(result).map(([k,r])=>[k,{contacts:r.contacts,toeoffs:r.toeoffs,meanEstimatedStanceMs:r.stanceMs.length?r.stanceMs.reduce((a,b)=>a+b,0)/r.stanceMs.length:null}]))}
+
+// === acceleration.mjs ===
+/** Derive interval-average speed and adjacent-interval acceleration from observed meter timestamps. */
+function analyzeAcceleration(splits, distance, options={}) {
+ const n=Math.floor(Number(distance));
+ if(!Number.isFinite(n)||n<1||n>10000)return [];
+ const results=[];
+ const initialRest=options.initialRest===true;
+ let previous=null;
+ for(let meter=1;meter<=n;meter++){
+  const t1=Number(splits?.[meter]);
+  const rawT0=meter===1?0:Number(splits?.[meter-1]);
+  const valid=Number.isFinite(t1)&&Number.isFinite(rawT0)&&t1>rawT0&&rawT0>=0;
+  if(!valid){results.push({meter,time:null,segmentTime:null,speedMps:null,speedKmh:null,acceleration:null});previous=null;continue}
+  const dt=t1-rawT0, speed=1/dt, midpoint=(rawT0+t1)/2;
+  let acceleration=null;
+  if(previous){const deltaT=midpoint-previous.midpoint;if(deltaT>0)acceleration=(speed-previous.speed)/deltaT}
+  else if(meter===1&&initialRest){ // Assumes v=0 at the start; coarse model, not a measured instantaneous acceleration.
+   acceleration=2/dt**2;
+  }
+  results.push({meter,time:t1,segmentTime:dt,speedMps:speed,speedKmh:speed*3.6,acceleration});
+  previous={speed,midpoint};
+ }
+ return results;
+}
+function accelerationSummary(rows){
+ const a=rows.map(r=>r.acceleration).filter(Number.isFinite);
+ const speeds=rows.map(r=>r.speedKmh).filter(Number.isFinite);
+ return {maxAcceleration:a.length?Math.max(...a):null,minAcceleration:a.length?Math.min(...a):null,maxSpeed:speeds.length?Math.max(...speeds):null,validSpeedSegments:speeds.length,validAccelerationSegments:a.length};
+}
+
+// === phases.mjs ===
+/** Group changes in one-meter interval-average speed; acceleration estimates are NOT instantaneous. */
+function analyzePhases(rows, threshold=0.15){
+ const valid=rows.filter(r=>Number.isFinite(r.acceleration));
+ const speeds=rows.filter(r=>Number.isFinite(r.speedKmh));
+ const peak=speeds.length?speeds.reduce((a,b)=>b.speedKmh>a.speedKmh?b:a).meter:null;
+ return {accelerating:valid.filter(r=>r.acceleration>threshold).length,
+  decelerating:valid.filter(r=>r.acceleration< -threshold).length,
+  stable:valid.filter(r=>Math.abs(r.acceleration)<=threshold).length,
+  available:valid.length,maxSpeedSegment:peak};
+}
+/** Midpoint time of each independently observed one-meter segment. Missing sections stay missing. */
+function accelerationTimePoints(rows,field){
+ return rows.filter(r=>Number.isFinite(r[field])&&Number.isFinite(r.time)&&Number.isFinite(r.segmentTime))
+  .map(r=>({meter:r.meter,time:r.time-r.segmentTime/2,value:r[field]}));
+}
+
+// === app.mjs ===
+const $=id=>document.getElementById(id),cv=$('cv'),ctx=cv.getContext('2d'),vid=$('vid');
+const DEF={sA:{x:.24,y:.14},sB:{x:.24,y:.88},fA:{x:.76,y:.14},fB:{x:.76,y:.88}};
+const load=(key,other)=>{try{return JSON.parse(localStorage.getItem(key))??other}catch{return other}};
+let conf=load('sprint_v4_conf',{L:structuredClone(DEF),D:10});let L=conf.L,D=conf.D;
+let latestSavedResult=null;
+let accelCacheKey='',accelData=[];
+let source='simulation', simulation={running:false,paused:false,start:0,pauseAt:0,elapsed:0,lastElapsed:0,progress:-.12},videoObjectUrl=null,videoLoaded=false;
+let footEvents=[],footState=newFootState(),showGround=true,ground=load('sprint_v45_ground',{a:{x:.15,y:.84},b:{x:.85,y:.84}}),groundDrag=null;
+let stepRecords=[],lastStepSide='unknown',showLegAngles=true,legMetrics={left:{thigh:null,extension:null},right:{thigh:null,extension:null}},strideRange=freshStrideRange();
+let W=960,H=540,stream=null,pose=null,modelError=false,detectBusy=false,lastVideoTime=-1,lastLm=null,hip=null,prevSeparation=0,stepAt=-Infinity,steps=0,kl=null,kr=null,klMin=null,krMin=null,ticks=true,drag=null,camFps=0,poseFps=0,recorder=null,recordedChunks=[],lastVideoBlob=null,shots=[],series=[],clock=new SprintClock(),startSoundCtx=null,recordingUrl=null,lastFinished=false,lastPoseTime=0;
+$('dist').value=D;$('pdist').textContent=`${D} เมตร`;
+const warn=t=>$('warn').textContent=t;
+const setStatus=t=>$('pai').textContent=t;
+function saveConfig(){localStorage.setItem('sprint_v4_conf',JSON.stringify({L,D}));$('pdist').textContent=`${D} เมตร`}
+function beep(){try{startSoundCtx??=new (window.AudioContext||window.webkitAudioContext)();startSoundCtx.resume();const o=startSoundCtx.createOscillator(),g=startSoundCtx.createGain();o.type='sine';o.frequency.value=880;g.gain.setValueAtTime(.0001,startSoundCtx.currentTime);g.gain.exponentialRampToValueAtTime(.2,startSoundCtx.currentTime+.01);g.gain.exponentialRampToValueAtTime(.0001,startSoundCtx.currentTime+.24);o.connect(g).connect(startSoundCtx.destination);o.start();o.stop(startSoundCtx.currentTime+.25)}catch(e){console.warn('Audio:',e)}}
+let poseLoading=null;
+async function initPose(){
+ if(pose)return true;if(poseLoading)return poseLoading;
+ modelError=false;setStatus('AI: กำลังโหลด...');
+ poseLoading=(async()=>{let lastError;
+ const providers=[['https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.21/+esm','https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.21/wasm'],['https://unpkg.com/@mediapipe/tasks-vision@0.10.21/vision_bundle.mjs','https://unpkg.com/@mediapipe/tasks-vision@0.10.21/wasm']];
+ for(const [moduleUrl,wasmUrl] of providers){try{
+ const {PoseLandmarker,FilesetResolver}=await import(moduleUrl);
+ const fs=await FilesetResolver.forVisionTasks(wasmUrl);
+ for(const delegate of ['GPU','CPU']){try{
+ pose=await PoseLandmarker.createFromOptions(fs,{baseOptions:{modelAssetPath:'https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task',delegate},runningMode:'VIDEO',numPoses:1,minPoseDetectionConfidence:.55,minTrackingConfidence:.55});
+ setStatus('AI: พร้อม ('+delegate+')');return true;
+ }catch(e){lastError=e;console.warn(delegate,e)}}
+ }catch(e){lastError=e;console.warn(e)}}
+ modelError=true;setStatus('AI: โหลดไม่สำเร็จ');warn('โหลด AI ไม่ได้: '+(lastError?.message||'ไม่ทราบสาเหตุ')+' | ตรวจสอบอินเทอร์เน็ต แล้วกด ARM เพื่อลองใหม่');return false;
+ })();try{return await poseLoading}finally{poseLoading=null}
+}
+async function listDevices(){if(!navigator.mediaDevices?.enumerateDevices)return;try{const devices=(await navigator.mediaDevices.enumerateDevices()).filter(d=>d.kind==='videoinput'),cur=$('dev').value;const sel=$('dev');sel.replaceChildren(new Option('กล้องอัตโนมัติ',''));devices.forEach((d,i)=>sel.add(new Option(d.label||`กล้อง ${i+1}`,d.deviceId)));if([...sel.options].some(o=>o.value===cur))sel.value=cur}catch(e){console.warn(e)}}
+function stopCam(){if(stream){stream.getTracks().forEach(x=>x.stop());stream=null}if(stream===null)vid.srcObject=null;$('pcam').textContent='กล้อง: ปิด';$('bCam').textContent='◉ เปิดกล้อง';$('liveIndicator').textContent='● CAMERA OFF';lastLm=null;lastVideoTime=-1;if(clock.state==='RUNNING'&&clock.mode!=='manual')warn('กล้องหยุดระหว่างการวิ่ง ต้องหยุดด้วยตนเองหรือเริ่มใหม่')}
+let facing='environment';async function startCam(){if(source!=='camera')setSource('camera');if(!window.isSecureContext||!navigator.mediaDevices?.getUserMedia){warn('กล้องบนเว็บต้องเปิดผ่าน HTTPS หรือ localhost (ห้ามเปิดไฟล์ HTML โดยตรง)');return}stopCam();const[w,h]=$('res').value.split('x').map(Number);const video={width:{ideal:w},height:{ideal:h},aspectRatio:{ideal:16/9},frameRate:{ideal:Number($('fps').value)}};const dev=$('dev').value;if(dev)video.deviceId={exact:dev};else video.facingMode={ideal:facing};try{stream=await navigator.mediaDevices.getUserMedia({video,audio:false});vid.srcObject=stream;await vid.play();W=cv.width=w;H=cv.height=h;$('stage').style.aspectRatio=`${W}/${H}`;$('pcam').textContent=`กล้อง: ${vid.videoWidth}×${vid.videoHeight} → ${W}×${H} (16:9)`;$('liveIndicator').textContent='● LIVE CAMERA';$('bCam').textContent='ปิดกล้อง';warn('');void initPose();void listDevices()}catch(e){stopCam();warn(({NotAllowedError:'ไม่ได้รับสิทธิ์ใช้กล้อง กรุณาอนุญาตในเบราว์เซอร์',NotFoundError:'ไม่พบกล้อง',NotReadableError:'กล้องกำลังถูกโปรแกรมอื่นใช้งาน',OverconstrainedError:'กล้องไม่รองรับค่าที่เลือก'}[e.name]||`เปิดกล้องไม่ได้: ${e.message}`))}}
+$('bCam').onclick=()=>stream?stopCam():startCam();$('bSw').onclick=()=>{facing=facing==='environment'?'user':'environment';$('dev').value='';void startCam()};for(const key of ['dev','res','fps'])$(key).onchange=()=>{if(stream)void startCam()};
+function clearRun(){accelCacheKey='';clock.reset();steps=0;prevSeparation=0;stepAt=-Infinity;kl=kr=null;klMin=krMin=null;series=[];shots=[];stepRecords=[];lastStepSide='unknown';strideRange=freshStrideRange();legMetrics={left:{thigh:null,extension:null},right:{thigh:null,extension:null}};$('shots').replaceChildren();$('stepAngles').replaceChildren();lastFinished=false;lastPoseTime=0;footEvents=[];footState=newFootState();$('footEvents').replaceChildren();updateFootSummary();warn('')}
+$('mode').onchange=()=>{if(['ARMED','RUNNING'].includes(clock.state))clearRun();$('modeTag').textContent=$('mode').value==='line'?'ผ่านเส้น START':'เสียงปล่อยตัว';$('bSignal').disabled=true};
+let armPending=false;
+$('bArm').onclick=async()=>{if(armPending)return;if(source==='simulation'){warn('โหมดจำลอง: กด เริ่มจำลอง');return}if(['ARMED','RUNNING'].includes(clock.state))return;
+ const requestedSource=source;armPending=true;$('bArm').disabled=true;
+ try{
+ if(source==='camera'&&!stream){await startCam();if(!stream)return}
+ if(source==='video'&&!videoLoaded){warn('กรุณาเลือกไฟล์วิดีโอและรอจนอ่านข้อมูลเสร็จ');return}
+ if(source==='video')vid.pause();
+ if(!pose){warn('กำลังโหลด AI อัตโนมัติ กรุณารอจนระบบพร้อม');if(!await initPose())return}
+ if(source!==requestedSource|| (source==='camera'&&!stream)||(source==='video'&&!videoLoaded))return;
+ clearRun();clock.arm($('mode').value);lastVideoTime=-1;$('bSignal').disabled=clock.mode!=='signal';warn(clock.mode==='signal'?'พร้อมปล่อยตัว กดปุ่มเสียงเพื่อเริ่มเวลา':'ARM สำเร็จ — ให้นักวิ่งเคลื่อนผ่านเส้น START');
+ }catch(e){warn('ARM ไม่สำเร็จ: '+e.message)}finally{armPending=false;$('bArm').disabled=source==='simulation'}
+};
+$('bSignal').onclick=()=>{if(clock.signal(source==='video'?vid.currentTime*1000:performance.now())){beep();$('bSignal').disabled=true;warn('ปล่อยตัวแล้ว — รอตรวจจับเส้น FINISH')}};
+$('bMan').onclick=()=>{clearRun();clock.manualStart(source==='video'?vid.currentTime*1000:performance.now());$('bSignal').disabled=true;beep();warn('จับเวลาด้วยมือ — กดหยุดเมื่อสิ้นสุด')};
+$('bStop').onclick=()=>{if(source==='simulation')simulation.running=false;if(clock.manualStop(source==='video'?vid.currentTime*1000:performance.now())){beep();complete()}else if(clock.state==='ARMED'){clearRun()}};
+$('bRst').onclick=()=>{simulation.running=false;clearRun()};
+$('dist').onchange=e=>{if(['ARMED','RUNNING'].includes(clock.state))clearRun();const oldD=D;D=clamp(Math.round(Number(e.target.value)||10),10,50);e.target.value=D;saveConfig();$('goalTime').value=(Number($('goalTime').value||5)*D/oldD).toFixed(2);updateGoalInputs('total')};
+$('bFlip').onclick=()=>{if(['ARMED','RUNNING'].includes(clock.state))clearRun();[L.sA,L.fA]=[L.fA,L.sA];[L.sB,L.fB]=[L.fB,L.sB];saveConfig()};
+$('bTick').onclick=()=>{ticks=!ticks;$('bTick').textContent=ticks?'เส้นทุก 1 ม. ✓':'ซ่อนเส้นทุกเมตร'};
+$('bClr').onclick=()=>{clearRun();L=structuredClone(DEF);D=10;$('dist').value=D;saveConfig();updateGoalInputs('total')};$('bFull').onclick=()=>$('stage').requestFullscreen?.();
+function point(evt){const r=cv.getBoundingClientRect();return{x:clamp((evt.clientX-r.left)/r.width,0,1),y:clamp((evt.clientY-r.top)/r.height,0,1)}}
+cv.addEventListener('pointerdown',e=>{if(!showGround||['ARMED','RUNNING'].includes(clock.state)||source==='simulation')return;const p=point(e);for(const k of ['a','b']){const v=ground[k];if(Math.hypot((p.x-v.x)*(W/H),p.y-v.y)<.065){groundDrag=k;drag=null;cv.setPointerCapture(e.pointerId);e.stopImmediatePropagation();return}}});
+cv.addEventListener('pointermove',e=>{if(groundDrag){ground[groundDrag]=point(e);e.stopImmediatePropagation()}});
+for(const type of ['pointerup','pointercancel'])cv.addEventListener(type,()=>{if(groundDrag){groundDrag=null;localStorage.setItem('sprint_v45_ground',JSON.stringify(ground))}});
+cv.addEventListener('pointerdown',e=>{if(groundDrag||['ARMED','RUNNING'].includes(clock.state))return;const p=point(e);let best=.075;drag=null;for(const k in L){let d=Math.hypot((L[k].x-p.x)*(W/H),L[k].y-p.y);if(d<best){drag=k;best=d}}if(drag)cv.setPointerCapture(e.pointerId)});
+cv.addEventListener('pointermove',e=>{if(drag&&!groundDrag)L[drag]=point(e)});for(const type of ['pointerup','pointercancel'])cv.addEventListener(type,()=>{if(drag){drag=null;saveConfig()}});
+function complete(){if(lastFinished)return;lastFinished=true;if(source==='simulation')simulation.running=false;$('bSignal').disabled=true;beep();warn(clock.manualFinish?'หยุดด้วยมือ: โปรดแยกผลนี้จากเวลาอัตโนมัติ':'จบการทดสอบ — สามารถบันทึกผลได้');if(recorder?.state==='recording')stopRecording()}
+function processPose(lm,t){if(!lm){if(clock.state==='ARMED')warn('รอ AI ตรวจพบนักวิ่งก่อนเส้น START');lastLm=null;kl=kr=null;legMetrics={left:{thigh:null,extension:null},right:{thigh:null,extension:null}};hip=null;footState=newFootState();return}lastLm=lm;const P=i=>({x:lm[i].x*W,y:lm[i].y*H,v:lm[i].visibility??1});const lh=P(23),rh=P(24),lk=P(25),rk=P(26),la=P(27),ra=P(28);
+ legMetrics=computeLegMetrics(lm,angle);kl=legMetrics.left.kneeAngle;kr=legMetrics.right.kneeAngle;
+ const validHip=q=>q.v>=.45&&Number.isFinite(q.x)&&Number.isFinite(q.y);const hips=[lh,rh].filter(validHip);if(!hips.length){hip=null;if(clock.state==='ARMED')warn('รอ AI ตรวจพบสะโพกนักวิ่ง — ให้อยู่ในภาพก่อนเส้น START');return}hip={x:hips.reduce((a,q)=>a+q.x,0)/hips.length,y:hips.reduce((a,q)=>a+q.y,0)/hips.length};const p=distanceProgress(hip,L,W,H);if(!Number.isFinite(p))return;const before=clock.state;clock.feed(p,t,D);if(clock.state==='ARMED'&&clock.mode==='line')warn(p<=0?'ตรวจพบสะโพกก่อนเส้น START — พร้อมจับเวลา':'ตรวจพบสะโพกหลังเส้น START — ให้กลับไปก่อนเส้นแล้ววิ่งผ่าน');if(before==='ARMED'&&clock.state==='RUNNING'){beep();warn('จับเวลาอัตโนมัติเริ่มแล้ว')};if(clock.state==='FINISHED'&&before!=='FINISHED')complete();
+ if(clock.state==='RUNNING'){
+  if(source!=='simulation'&&showGround){
+   const events=updateFootPhases(footState,lm,t,ground,legMetrics);
+   for(const ev of events){footEvents.push({...ev,atSeconds:clock.startAt===null?null:(ev.t-clock.startAt)/1000});if(footEvents.length>500)footEvents.shift()}
+   if(events.length){updateFootTable();updateFootSummary()}
+  }
+  accumulateStride(strideRange,legMetrics);
+  if(kl!=null)klMin=klMin===null?kl:Math.min(klMin,kl);if(kr!=null)krMin=krMin===null?kr:Math.min(krMin,kr);
+  series.push({t:t-clock.startAt,kl,kr,p});if(series.length>10000)series.shift();
+  const sa=L.sA,fa=L.fA;const dx=(fa.x-sa.x)*W,dy=(fa.y-sa.y)*H,len=Math.hypot(dx,dy)||1,ux=dx/len,uy=dy/len;
+  if(la.v>.55&&ra.v>.55){const separation=((la.x-ra.x)*W)*ux+((la.y-ra.y)*H)*uy;const thr=W*.02;const sign=Math.abs(separation)>thr?Math.sign(separation):0;
+   if(sign&&prevSeparation&&sign!==prevSeparation&&t-stepAt>220){steps++;stepAt=t;lastStepSide=sign>0?'ซ้าย':'ขวา';const sideKey=sign>0?'left':'right',metric=legMetrics[sideKey],range=strideRange[sideKey];stepRecords.push({step:steps,time:Math.max(0,(t-clock.startAt)/1000),side:lastStepSide,sideKey,left:kl,right:kr,thighAtStepDeg:metric.thigh,peakThighDeg:range.maxThigh,kneeAtStepDeg:metric.kneeAngle,minKneeDeg:range.minKnee,kneeExtensionAtStepDeg:metric.extension,peakExtensionDeg:range.maxExtension,source});if(stepRecords.length>300)stepRecords.shift();strideRange=freshStrideRange();updateStepTable();if(shots.length<30){try{const data=cv.toDataURL('image/jpeg',.65);shots.push(data);const i=new Image();i.src=data;i.alt=`ก้าวที่ ${steps}`;$('shots').append(i)}catch(e){console.warn(e)}}}if(sign)prevSeparation=sign}
+ }
+}
+function fmtDeg(v){return Number.isFinite(v)?v.toFixed(1)+'°':'–'}
+function updateGaitMetrics(){for(const [id,v] of [['vThighL',legMetrics.left.thigh],['vThighR',legMetrics.right.thigh],['vExtendL',legMetrics.left.extension],['vExtendR',legMetrics.right.extension]])$(id).textContent=fmtDeg(v);const summary=summarizeSteps(stepRecords);$('gaitCompare').textContent=stepRecords.length?`มุมยกต้นขาสูงสุดเฉลี่ยในช่วงก้าว (ประมาณ): ซ้าย ${fmtDeg(summary.left.avgThigh)} / ขวา ${fmtDeg(summary.right.avgThigh)} • ข้อมูลนับก้าวและระบุขาอาจคลาดเคลื่อน`:'ยังไม่มีข้อมูลก้าวจาก AI';}
+function updateStepTable(){const body=$('stepAngles');if(!body)return;body.replaceChildren();for(const r of stepRecords.slice(-60)){const tr=document.createElement('tr');for(const v of [r.step,r.time.toFixed(2)+' s',r.side,fmtDeg(r.left),fmtDeg(r.right),fmtDeg(r.thighAtStepDeg),fmtDeg(r.peakThighDeg),fmtDeg(r.kneeExtensionAtStepDeg),fmtDeg(r.peakExtensionDeg)]){const td=document.createElement('td');td.textContent=v;tr.append(td)}body.append(tr)}updateGaitMetrics()}
+function updateFootSummary(){const s=footPhaseSummary(footEvents);$('footSummary').textContent=`จังหวะลงเท้าโดยประมาณ: ซ้าย ${s.left.contacts} / ขวา ${s.right.contacts} · เวลาคาดการณ์ที่เท้าใกล้พื้นเฉลี่ย: ซ้าย ${s.left.meanEstimatedStanceMs==null?'–':s.left.meanEstimatedStanceMs.toFixed(0)+' ms'} / ขวา ${s.right.meanEstimatedStanceMs==null?'–':s.right.meanEstimatedStanceMs.toFixed(0)+' ms'} · ไม่ใช่การตรวจสัมผัสพื้นหรือเวลา Ground Contact ที่วัดจริง`}
+function updateFootTable(){const body=$('footEvents');body.replaceChildren();for(const e of footEvents.slice(-80)){const tr=document.createElement('tr');for(const v of [e.atSeconds==null?'–':e.atSeconds.toFixed(3),e.side==='left'?'ซ้าย':'ขวา',e.type==='contact_candidate'?'ลงเท้า (ประมาณ)':'ยกเท้า (ประมาณ)',fmtDeg(e.kneeDeg),fmtDeg(e.thighDeg),e.estimatedContactMs==null?'–':e.estimatedContactMs.toFixed(0)+' ms']){const td=document.createElement('td');td.textContent=v;tr.append(td)}body.append(tr)}}
+$('bGround').onclick=()=>{showGround=!showGround;$('bGround').textContent=showGround?'● แสดงเส้นพื้น':'○ ซ่อนเส้นพื้น';if(!showGround){footState=newFootState();warn('ปิดการตรวจจังหวะเท้า เนื่องจากซ่อนเส้นพื้นสนาม')}};
+$('bGroundReset').onclick=()=>{ground={a:{x:.15,y:.84},b:{x:.85,y:.84}};localStorage.setItem('sprint_v45_ground',JSON.stringify(ground));footState=newFootState();warn('รีเซ็ตเส้นพื้นสนามแล้ว โปรดลากให้ตรงกับพื้นจริง')};
+$('bFootCsv').onclick=()=>{if(!footEvents.length){warn('ยังไม่มีข้อมูลเหตุการณ์เท้า กรุณาเปิดกล้องหรือวิดีโอและเริ่มการวิ่ง');return}const q=x=>'"'+String(x??'').replaceAll('"','""')+'"';const rows=[['elapsed_s','side','event_estimated','knee_deg_2d','thigh_deg_2d','estimated_near_ground_duration_ms'],...footEvents.map(e=>[e.atSeconds?.toFixed(3)??'',e.side,e.type,e.kneeDeg?.toFixed(2)??'',e.thighDeg?.toFixed(2)??'',e.estimatedContactMs?.toFixed(0)??''])];downloadBlob(new Blob(['\ufeff'+rows.map(r=>r.map(q).join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'}),'sprint-v45-foot-events-estimated.csv')};
+function drawGroundLine(){if(!showGround||source==='simulation')return;ctx.save();ctx.setLineDash([12,8]);ctx.strokeStyle='#a3ff89';ctx.lineWidth=Math.max(2,W/450);ctx.beginPath();ctx.moveTo(ground.a.x*W,ground.a.y*H);ctx.lineTo(ground.b.x*W,ground.b.y*H);ctx.stroke();ctx.setLineDash([]);for(const p of [ground.a,ground.b]){ctx.beginPath();ctx.arc(p.x*W,p.y*H,Math.max(6,W/150),0,Math.PI*2);ctx.fillStyle='#a3ff89';ctx.fill()}ctx.font=`bold ${Math.max(12,H/35)}px system-ui`;ctx.fillStyle='#a3ff89';ctx.fillText('GROUND REF (ประมาณ)',ground.a.x*W,ground.a.y*H-12);ctx.restore()}
+function drawJointAngle(hipPoint,kneePoint,anklePoint,value,color,label){if(value==null||!showLegAngles)return;const points=[hipPoint,kneePoint,anklePoint];if(points.some(p=>!p||(p.visibility??1)<.55))return;const h={x:hipPoint.x*W,y:hipPoint.y*H},k={x:kneePoint.x*W,y:kneePoint.y*H},a={x:anklePoint.x*W,y:anklePoint.y*H};const radius=Math.max(14,Math.min(W,H)*.035);const t1=Math.atan2(h.y-k.y,h.x-k.x),t2=Math.atan2(a.y-k.y,a.x-k.x);let diff=(t2-t1+Math.PI*3)%(Math.PI*2)-Math.PI;ctx.save();ctx.strokeStyle=color;ctx.lineWidth=Math.max(3,W/350);ctx.beginPath();ctx.moveTo(h.x,h.y);ctx.lineTo(k.x,k.y);ctx.lineTo(a.x,a.y);ctx.stroke();ctx.beginPath();ctx.arc(k.x,k.y,radius,t1,t1+diff,diff<0);ctx.stroke();for(const q of [h,k,a]){ctx.beginPath();ctx.fillStyle=color;ctx.arc(q.x,q.y,Math.max(4,W/180),0,Math.PI*2);ctx.fill();ctx.strokeStyle='#071226';ctx.lineWidth=2;ctx.stroke()}ctx.font=`bold ${Math.max(13,H/29)}px sans-serif`;ctx.lineWidth=4;ctx.strokeStyle='#071226';ctx.fillStyle=color;const tx=k.x+(label==='L'?-1.8:0.5)*radius,ty=k.y-radius;ctx.strokeText(label+' '+value.toFixed(0)+'°',tx,ty);ctx.fillText(label+' '+value.toFixed(0)+'°',tx,ty);ctx.restore()}
+function drawThighReference(hipPoint,kneePoint,value,color){if(!showLegAngles||value===null||!hipPoint||!kneePoint||(hipPoint.visibility??1)<.55||(kneePoint.visibility??1)<.55)return;const x=hipPoint.x*W,y=hipPoint.y*H,kx=kneePoint.x*W,ky=kneePoint.y*H,rad=Math.max(24,H*.1);ctx.save();ctx.setLineDash([7,6]);ctx.strokeStyle='#ffffffaa';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y+rad);ctx.stroke();ctx.setLineDash([]);ctx.strokeStyle=color;ctx.lineWidth=Math.max(3,W/380);ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(kx,ky);ctx.stroke();ctx.fillStyle=color;ctx.strokeStyle='#071226';ctx.lineWidth=4;ctx.font=`bold ${Math.max(12,H/36)}px sans-serif`;const tx=x+12,ty=y+rad*.8;ctx.strokeText('ต้นขา '+Math.abs(value).toFixed(0)+'°',tx,ty);ctx.fillText('ต้นขา '+Math.abs(value).toFixed(0)+'°',tx,ty);ctx.restore()}
+$('bLegAngles').onclick=()=>{showLegAngles=!showLegAngles;$('bLegAngles').textContent=showLegAngles?'● แสดงมุมขา':'○ ซ่อนมุมขา'};
+$('bStepCsv').onclick=()=>{if(!stepRecords.length){warn('ยังไม่มีข้อมูลมุมแต่ละก้าว กรุณาทดสอบด้วยกล้องหรือวิดีโอจริง');return}const rows=[['step','time_s','estimated_side','left_knee_deg','right_knee_deg','thigh_at_step_deg_signed','peak_thigh_deg_abs','knee_extension_at_step_deg','max_knee_extension_in_interval_deg','minimum_knee_in_interval_deg','source'],...stepRecords.map(r=>[r.step,r.time.toFixed(3),r.side,r.left?.toFixed(2)??'',r.right?.toFixed(2)??'',r.thighAtStepDeg?.toFixed(2)??'',r.peakThighDeg?.toFixed(2)??'',r.kneeExtensionAtStepDeg?.toFixed(2)??'',r.peakExtensionDeg?.toFixed(2)??'',r.minKneeDeg?.toFixed(2)??'',r.source])];downloadBlob(new Blob(['\ufeff'+rows.map(r=>r.join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'}),'sprint-step-angles.csv')};
+function drawSegment(a,b,color,lw){ctx.strokeStyle=color;ctx.lineWidth=lw;ctx.beginPath();ctx.moveTo(a.x*W,a.y*H);ctx.lineTo(b.x*W,b.y*H);ctx.stroke()}
+const LINKS=[[11,12],[11,23],[12,24],[23,24],[23,25],[25,27],[24,26],[26,28],[27,29],[29,31],[28,30],[30,32],[11,13],[13,15],[12,14],[14,16]];
+function drawOverlay(now){const lw=Math.max(2,W/420),fs=Math.max(12,Math.round(H/26));
+ if(ticks){for(let k=1;k<D;k++){const f=k/D,a={x:L.sA.x+(L.fA.x-L.sA.x)*f,y:L.sA.y+(L.fA.y-L.sA.y)*f},b={x:L.sB.x+(L.fB.x-L.sB.x)*f,y:L.sB.y+(L.fB.y-L.sB.y)*f};drawSegment(a,b,'#38bdf880',lw);ctx.fillStyle='#70d8ff';ctx.font=`${fs*.8}px sans-serif`;ctx.fillText(`${k}m`,b.x*W+3,b.y*H-3)}}
+ drawGroundLine();drawSegment(L.sA,L.sB,'#3de2a0',lw*2);drawSegment(L.fA,L.fB,'#ff6479',lw*2);ctx.font=`bold ${fs}px sans-serif`;ctx.fillStyle='#3de2a0';ctx.fillText('START',L.sA.x*W+5,L.sA.y*H-6);ctx.fillStyle='#ff6479';ctx.fillText('FINISH',L.fA.x*W+5,L.fA.y*H-6);
+ for(const k in L){ctx.beginPath();ctx.fillStyle=k.startsWith('s')?'#3de2a0':'#ff6479';ctx.arc(L[k].x*W,L[k].y*H,lw*3,0,Math.PI*2);ctx.fill()}
+ if(lastLm){if(showLegAngles){drawJointAngle(lastLm[23],lastLm[25],lastLm[27],kl,'#39e7ff','L');drawJointAngle(lastLm[24],lastLm[26],lastLm[28],kr,'#ff8bca','R');drawThighReference(lastLm[23],lastLm[25],legMetrics.left.thigh,'#39e7ff');drawThighReference(lastLm[24],lastLm[26],legMetrics.right.thigh,'#ff8bca')}for(const[a,b]of LINKS)drawSegment(lastLm[a],lastLm[b],'#ffcd42',lw*1.4);if(hip){ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(hip.x,hip.y,lw*3,0,Math.PI*2);ctx.fill()}}
+ const current=clock.elapsed(now);ctx.fillStyle='#02070ccd';ctx.fillRect(0,0,Math.min(W*.65,fs*25),fs*5.8);ctx.fillStyle='#ffcb46';ctx.font=`bold ${fs*2}px monospace`;ctx.fillText(fmt(current),10,fs*2);ctx.fillStyle='#fff';ctx.font=`${fs}px sans-serif`;ctx.fillText(`${clock.state}  |  ก้าว ~${steps}`,10,fs*3.25);ctx.fillText(`L ${kl==null?'–':kl.toFixed(0)+'°'}  R ${kr==null?'–':kr.toFixed(0)+'°'}`,10,fs*4.5);
+}
+function render(now){$('timer').textContent=fmt(clock.elapsed(now));$('state').textContent=clock.state+(clock.manualFinish?' (MANUAL)':'');$('vSt').textContent=steps||'–';$('vKl').textContent=kl===null?'–':kl.toFixed(0)+'°';$('vKr').textContent=kr===null?'–':kr.toFixed(0)+'°';let html='',max=0;for(let k=1;k<=D;k++){const timestamp=clock.splits[k];const prev=(k===1?clock.startAt:clock.splits[k-1]);const split=timestamp===undefined||clock.startAt===null?null:(timestamp-clock.startAt)/1000;const segment=timestamp===undefined||prev===undefined||prev===null?null:(timestamp-prev)/1000;const speed=segment>0?1/segment:null;if(speed!==null)max=Math.max(max,speed);html+=`<tr><td>${k} ม.</td><td>${split===null?'–':split.toFixed(3)}</td><td>${segment===null?'–':segment.toFixed(3)}</td><td>${speed===null?'–':toKmH(speed).toFixed(2)}</td></tr>`}
+ if($('spl').dataset.key!==JSON.stringify(clock.splits)+'_'+D){$('spl').innerHTML=html;$('spl').dataset.key=JSON.stringify(clock.splits)+'_'+D}
+ if(clock.state==='FINISHED'&&clock.elapsed(now)>0){const duration=clock.elapsed(now)/1000;$('vAvg').textContent=toKmH(D/duration).toFixed(2)+' กม./ชม.';$('vCad').textContent=steps?(60*steps/duration).toFixed(0)+' ก้าว/นาที':'–';$('vSl').textContent=steps?(D/steps).toFixed(2)+' ม.':'–';$('vMax').textContent=max?toKmH(max).toFixed(2)+' กม./ชม.':'–'}else{for(const id of ['vAvg','vCad','vSl','vMax'])$(id).textContent='–'}
+ updateGaitMetrics();renderGoals(now);renderAcceleration();}
+
+// Acceleration Lab: only derive from observed or explicitly synthetic split timestamps.
+function currentSplitsSeconds(){
+ const output={};if(clock.startAt===null)return output;
+ for(const [meter,timestamp] of Object.entries(clock.splits)){
+  const elapsed=(timestamp-clock.startAt)/1000;
+  if(Number.isFinite(elapsed)&&elapsed>=0)output[meter]=elapsed;
+ }
+ return output;
+}
+function plotMetric(canvas,rows,field,color,zeroBaseline=false){
+ const dpr=Math.min(2,window.devicePixelRatio||1),width=Math.max(260,Math.round(canvas.getBoundingClientRect().width||600)),height=Math.max(160,Math.round(canvas.getBoundingClientRect().height||205));
+ canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);
+ const c=canvas.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,width,height);
+ const margin={left:47,right:15,top:18,bottom:33},w=width-margin.left-margin.right,h=height-margin.top-margin.bottom;
+ const measured=rows.filter(r=>Number.isFinite(r[field]));
+ const values=measured.map(r=>r[field]);if(zeroBaseline)values.push(0);
+ let vmin=values.length?Math.min(...values):0,vmax=values.length?Math.max(...values):1;
+ if(Math.abs(vmax-vmin)<.001){vmax+=1;vmin-=1}
+ const pad=(vmax-vmin)*.12;vmin-=pad;vmax+=pad;
+ if(zeroBaseline)vmin=Math.min(0,vmin);
+ const x=m=>margin.left+(m/D)*w,y=v=>margin.top+h-(v-vmin)/(vmax-vmin)*h;
+ c.font='11px system-ui';c.lineWidth=1;
+ for(let k=0;k<=4;k++){const val=vmin+(vmax-vmin)*k/4,yp=y(val);c.strokeStyle='#284363';c.beginPath();c.moveTo(margin.left,yp);c.lineTo(margin.left+w,yp);c.stroke();c.fillStyle='#a2b4d1';c.textAlign='right';c.fillText(val.toFixed(1),margin.left-6,yp+4)}
+ for(let k=0;k<=4;k++){const m=D*k/4,xp=x(m);c.fillStyle='#a2b4d1';c.textAlign='center';c.fillText(m.toFixed(m%1===0?0:1),xp,height-14)}
+ c.fillStyle='#a2b4d1';c.textAlign='right';c.fillText('เมตร',width-10,height-3);
+ if(vmin<0&&vmax>0){c.strokeStyle='#78899f';c.setLineDash([4,4]);c.beginPath();c.moveTo(margin.left,y(0));c.lineTo(margin.left+w,y(0));c.stroke();c.setLineDash([])}
+ let previous=null;
+ for(const item of rows){const v=item[field];if(!Number.isFinite(v)){previous=null;continue}
+  const xx=x(item.meter-.5),yy=y(v); // segment-average estimates plotted at interval center
+  if(previous){c.beginPath();c.strokeStyle=color;c.lineWidth=2.5;c.moveTo(previous[0],previous[1]);c.lineTo(xx,yy);c.stroke()}
+  c.beginPath();c.fillStyle=color;c.arc(xx,yy,3,0,Math.PI*2);c.fill();previous=[xx,yy];
+ }
+ if(field==='speedKmh'&&$('startAtRest').checked&&measured.length&&measured[0].meter===1){
+  const first=measured[0];c.strokeStyle='#f8c53a';c.setLineDash([3,4]);c.beginPath();c.moveTo(x(0),y(0));c.lineTo(x(.5),y(first.speedKmh));c.stroke();c.setLineDash([]);
+  c.fillStyle='#f8c53a';c.beginPath();c.arc(x(0),y(0),4,0,Math.PI*2);c.fill();
+ }
+ if(!measured.length){c.fillStyle='#93a8c9';c.textAlign='center';c.font='13px system-ui';c.fillText('ยังไม่มีข้อมูลที่คำนวณได้',width/2,height/2)}
+}
+
+// Plot acceleration or segment speed against elapsed time (seconds). A sample represents
+// a one-meter segment midpoint, NOT instantaneous acceleration or velocity.
+function plotTimeline(canvas,rows,field,color){
+ const dpr=Math.min(2,window.devicePixelRatio||1),width=Math.max(260,Math.round(canvas.getBoundingClientRect().width||600)),height=Math.max(160,Math.round(canvas.getBoundingClientRect().height||205));
+ canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);
+ const c=canvas.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,width,height);
+ const m={left:52,right:16,top:16,bottom:35},w=width-m.left-m.right,h=height-m.top-m.bottom;
+ const pts=accelerationTimePoints(rows,field);
+ const validTimes=rows.map(r=>r.time).filter(Number.isFinite);
+ const xmax=Math.max(1,...validTimes);
+ const values=pts.map(p=>p.value);let min=values.length?Math.min(...values):0,max=values.length?Math.max(...values):1;
+ if(Math.abs(max-min)<.0001){max++;min--}const pad=(max-min)*.12;min-=pad;max+=pad;
+ if(field==='speedKmh')min=Math.min(min,0);
+ const x=t=>m.left+t/xmax*w,y=v=>m.top+h-(v-min)/(max-min)*h;
+ c.font='11px system-ui';c.textAlign='right';
+ for(let i=0;i<=4;i++){const value=min+(max-min)*i/4,yy=y(value);c.strokeStyle='#284363';c.lineWidth=1;c.beginPath();c.moveTo(m.left,yy);c.lineTo(m.left+w,yy);c.stroke();c.fillStyle='#a2b4d1';c.fillText(value.toFixed(1),m.left-7,yy+4)}
+ c.textAlign='center';for(let i=0;i<=4;i++){const t=i*xmax/4;c.fillStyle='#a2b4d1';c.fillText(t.toFixed(2),x(t),height-15)}
+ c.textAlign='right';c.fillText('เวลา (s)',width-12,height-3);
+ if(min<0&&max>0){c.strokeStyle='#78899f';c.setLineDash([4,4]);c.beginPath();c.moveTo(m.left,y(0));c.lineTo(m.left+w,y(0));c.stroke();c.setLineDash([])}
+ let prev=null;
+ for(let i=0;i<rows.length;i++){
+  const r=rows[i],v=r[field];if(!Number.isFinite(v)||!Number.isFinite(r.time)||!Number.isFinite(r.segmentTime)){prev=null;continue}
+  const xx=x(r.time-r.segmentTime/2),yy=y(v);
+  if(prev){c.strokeStyle=color;c.lineWidth=2.5;c.beginPath();c.moveTo(...prev);c.lineTo(xx,yy);c.stroke()}
+  c.fillStyle=color;c.beginPath();c.arc(xx,yy,3,0,Math.PI*2);c.fill();prev=[xx,yy];
+ }
+ if(!pts.length){c.fillStyle='#93a8c9';c.textAlign='center';c.fillText('ยังไม่มีข้อมูลที่คำนวณได้',width/2,height/2)}
+}
+function renderPhaseSummary(rows){
+ const phases=analyzePhases(rows);
+ $('phaseFast').textContent=phases.maxSpeedSegment===null?'–':`${phases.maxSpeedSegment-1}–${phases.maxSpeedSegment} ม.`;
+ $('phaseAccelerating').textContent=phases.accelerating+' ช่วง';
+ $('phaseSlowing').textContent=phases.decelerating+' ช่วง';
+ $('phaseStable').textContent=phases.stable+' ช่วง';
+ $('phaseNote').textContent=phases.available?`วิเคราะห์ได้ ${phases.available} ช่วงจากค่าอัตราเร่งประมาณ • เครื่องหมาย + คือเร่ง และ − คือชะลอ`:'ยังไม่มีข้อมูลเพียงพอสำหรับแยกช่วงเร่ง/ชะลอ';
+}
+
+function renderAcceleration(){
+ const splits=currentSplitsSeconds(),rest=$('startAtRest').checked;
+ const key=JSON.stringify([D,splits,rest]);if(key===accelCacheKey)return;
+ accelCacheKey=key;accelData=analyzeAcceleration(splits,D,{initialRest:rest});const summary=accelerationSummary(accelData);
+ $('accelPeakSpeed').textContent=summary.maxSpeed===null?'–':summary.maxSpeed.toFixed(2)+' km/h';
+ $('accelPeak').textContent=summary.maxAcceleration===null?'–':summary.maxAcceleration.toFixed(2)+' m/s²';
+ $('accelCoverage').textContent=summary.validSpeedSegments+' / '+D+' เมตร';
+ $('accelRows').innerHTML=accelData.map(r=>`<tr><td>${r.meter-1}–${r.meter} ม.</td><td>${r.segmentTime===null?'–':r.segmentTime.toFixed(3)}</td><td>${r.speedKmh===null?'–':r.speedKmh.toFixed(2)}</td><td>${r.acceleration===null?'–':r.acceleration.toFixed(2)}</td></tr>`).join('');
+ $('accelQuality').textContent=source==='simulation'?'ข้อมูลจำลองเพื่อทดสอบกราฟ ไม่ใช่ผลนักกีฬาจริง':rest?'อัตราเร่งเริ่มต้นใช้สมมติฐานหยุดนิ่ง ไม่ได้วัดความเร็วต้นจริง':'อัตราเร่งช่วงเมตรแรกไม่แสดง เพราะยังไม่ทราบความเร็วต้น • ไม่เติมข้อมูลที่ขาด';
+ plotMetric($('speedGraph'),accelData,'speedKmh','#47cafa',true);
+ plotMetric($('accelGraph'),accelData,'acceleration','#f8c53a',false);
+ plotTimeline($('speedTimeGraph'),accelData,'speedKmh','#47cafa');
+ plotTimeline($('accelTimeGraph'),accelData,'acceleration','#f8c53a');
+ renderPhaseSummary(accelData);
+}
+$('startAtRest').onchange=()=>{accelCacheKey='';renderAcceleration()};
+$('bAccelCsv').onclick=()=>{
+ const headers=['ระยะสิ้นสุด_m','เวลาสะสม_s','กึ่งกลางเวลา_s','เวลาต่อช่วง_s','ความเร็วเฉลี่ย_km_h','อัตราเร่งประมาณ_m_s2','สมมติเริ่มหยุดนิ่ง','ข้อมูลจำลอง'];
+ const rows=accelData.map(r=>[r.meter,r.time,Number.isFinite(r.time)&&Number.isFinite(r.segmentTime)?r.time-r.segmentTime/2:null,r.segmentTime,r.speedKmh,r.acceleration,$('startAtRest').checked,source==='simulation']);
+ const csv='\ufeff'+[headers,...rows].map(row=>row.map(v=>v===null||v===undefined?'':String(v)).join(',')).join('\r\n');
+ downloadBlob(new Blob([csv],{type:'text/csv;charset=utf-8'}),'sprint-acceleration.csv');
+};
+window.addEventListener('resize',()=>{accelCacheKey='';renderAcceleration()});
+
+// Target planner: use the current finished session, otherwise the latest saved session for the same distance.
+let goalInputSync=false, lastGoalMarkupKey='';
+function updateGoalInputs(changed) {
+  if(goalInputSync)return;goalInputSync=true;
+  if(changed==='perMeter') {const pace=Number($('goalPerMeter').value);if(Number.isFinite(pace)&&pace>0)$('goalTime').value=(pace*D).toFixed(2)}
+  else {const total=Number($('goalTime').value);if(Number.isFinite(total)&&total>0)$('goalPerMeter').value=(total/D).toFixed(3)}
+  goalInputSync=false;lastGoalMarkupKey='';renderGoals(performance.now());
+}
+$('goalTime').addEventListener('input',()=>updateGoalInputs('total'));
+$('goalPerMeter').addEventListener('input',()=>updateGoalInputs('perMeter'));
+$('goalStepLength').addEventListener('input',()=>{lastGoalMarkupKey='';renderGoals(performance.now())});
+function activeResult(now){
+ if(clock.state==='FINISHED'&&clock.elapsed(now)>0){
+  const sec=clock.elapsed(now)/1000;return {distance:D,seconds:sec,steps,synthetic:source==='simulation',splits:Object.fromEntries(Object.entries(clock.splits).map(([k,v])=>[k,(v-clock.startAt)/1000]))};
+ }
+ return latestSavedResult?.distance===D ? latestSavedResult : null;
+}
+function renderGoals(now){
+ const goal=calculateGoal(D,Number($('goalTime').value),Number($('goalStepLength').value));
+ const result=activeResult(now);
+ $('goalError').textContent=goal?'':'ใส่เวลาเป้าหมายและความยาวก้าวเป็นตัวเลขมากกว่า 0';
+ const show=(id,value)=>$(id).textContent=value;
+ show('goalSpeed',goal?goal.speedKmh.toFixed(2)+' กม./ชม.':'–');
+ show('goalPace',goal?goal.secondsPerMeter.toFixed(3)+' วินาที/ม.':'–');
+ show('goalSteps',goal?goal.estimatedSteps.toFixed(1)+' ก้าว (ประมาณ)':'–');
+ show('goalCadence',goal?goal.estimatedCadence.toFixed(1)+' ก้าว/นาที':'–');
+ show('goalStride',goal?goal.stepLength.toFixed(2)+' ม./ก้าว':'–');
+ const label=$('goalCompare');
+ if(!goal||!result){label.textContent='ยังไม่มีผลสำหรับระยะนี้';label.className='';}
+ else{
+  const gap=result.seconds-goal.seconds;
+  const prefix=result.synthetic?'[จำลอง] ':'';
+  label.textContent=prefix+(Math.abs(gap)<.0005?'ตรงเป้าหมาย':gap>0?'ช้ากว่า '+gap.toFixed(3)+' วิ.':'เร็วกว่า '+(-gap).toFixed(3)+' วิ.');
+  label.className=gap<=0?'goal-met':'goal-missed';
+ }
+ const key=JSON.stringify([goal?.seconds,goal?.stepLength,D,result?.distance,result?.seconds,result?.splits]);
+ if(lastGoalMarkupKey===key)return;lastGoalMarkupKey=key;
+ const body=$('goalSplits');body.replaceChildren();
+ for(const item of goal?goalSplits(D,goal.seconds,result?.splits??{}):[]){
+  const tr=document.createElement('tr');
+  const values=[item.meter+' ม.',item.targetSeconds.toFixed(3),item.actualSeconds===null?'–':item.actualSeconds.toFixed(3),item.difference===null?'–':(item.difference>0?'+':'')+item.difference.toFixed(3)];
+  values.forEach((value,i)=>{const td=document.createElement('td');td.textContent=value;if(i===3&&item.difference!==null)td.className=item.difference<=0?'goal-met':'goal-missed';tr.append(td)});body.append(tr);
+ }
+}
+
+function drawSimulation(){
+ ctx.fillStyle='#0c1b34';ctx.fillRect(0,0,W,H);ctx.fillStyle='#183354';ctx.fillRect(0,H*.63,W,H*.37);
+ for(let j=0;j<5;j++){ctx.strokeStyle='#365b79';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,H*(.7+j*.065));ctx.lineTo(W,H*(.7+j*.065));ctx.stroke()}
+ ctx.fillStyle='#dbe7fc';ctx.font=`bold ${Math.max(17,H/26)}px system-ui`;ctx.fillText('SIMULATION • ข้อมูลสังเคราะห์ ไม่ใช่ผลการแข่งขัน',20,36);
+ const {progress}=simulation;const x=(L.sA.x+(L.fA.x-L.sA.x)*progress)*W,y=H*.58;
+ const wave=simulation.elapsed/160;ctx.lineCap='round';ctx.strokeStyle='#f8c53a';ctx.lineWidth=Math.max(5,W/145);
+ const bone=(a,b)=>{ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.stroke()};const head=[x,y-100],neck=[x,y-76],hipPt=[x,y-23],a=wave;
+ ctx.fillStyle='#f8c53a';ctx.beginPath();ctx.arc(...head,15,0,Math.PI*2);ctx.fill();bone(neck,hipPt);
+ const leg1=[x+29*Math.sin(a),y+28],leg2=[x-29*Math.sin(a),y+28];bone(hipPt,leg1);bone(leg1,[leg1[0]+22*Math.sin(a+1),y+62]);bone(hipPt,leg2);bone(leg2,[leg2[0]-20*Math.sin(a+1),y+62]);bone(neck,[x+21*Math.sin(a+Math.PI),y-43]);bone(neck,[x-21*Math.sin(a+Math.PI),y-44]);
+ if(clock.state==='RUNNING')steps=Math.max(0,Math.floor((Math.max(0,progress)*D)/1.55));
+}
+function simulationFrame(realNow){if(simulation.running&&!simulation.paused){simulation.elapsed=realNow-simulation.start;let dur=Math.max(3000,Number($('simDuration').value||7)*1000),ratio=simulation.elapsed/dur;simulation.progress=-.12+1.24*Math.max(0,Math.min(1,ratio));const t=simulation.start+simulation.elapsed;clock.feed(simulation.progress,t,D);if(clock.state==='FINISHED'&&!lastFinished)complete();if(ratio>=1.05&&clock.state!=='FINISHED'){simulation.running=false;warn('การจำลองไม่พบจุด FINISH: โปรดตรวจสอบตำแหน่งเส้น')} }drawSimulation();return simulation.start+simulation.elapsed}
+// Fit the complete camera image into a fixed 16:9 canvas without stretching.
+function cameraFit(){const sw=vid.videoWidth||W,sh=vid.videoHeight||H;const scale=Math.min(W/sw,H/sh);const dw=sw*scale,dh=sh*scale;return {x:(W-dw)/2,y:(H-dh)/2,w:dw,h:dh};}
+function cameraLandmarks(lm,r){return lm?lm.map(p=>({...p,x:(r.x+p.x*r.w)/W,y:(r.y+p.y*r.h)/H})):null;}
+function loop(){requestAnimationFrame(loop);const realNow=performance.now();let now=realNow;
+ if(source==='simulation'){now=simulationFrame(realNow)}
+ else if(source==='camera'&&stream&&vid.readyState>=2){const r=cameraFit();ctx.fillStyle='#030710';ctx.fillRect(0,0,W,H);ctx.drawImage(vid,r.x,r.y,r.w,r.h);if(pose&&vid.currentTime!==lastVideoTime){lastVideoTime=vid.currentTime;camFps++;try{const found=pose.detectForVideo(vid,realNow).landmarks[0]||null;poseFps++;processPose(cameraLandmarks(found,r),realNow)}catch(e){console.error(e);processPose(null,realNow)}}}
+ else if(source==='video'&&videoLoaded&&vid.readyState>=2){now=vid.currentTime*1000;ctx.drawImage(vid,0,0,W,H);if(pose&&vid.currentTime!==lastVideoTime){lastVideoTime=vid.currentTime;camFps++;try{const found=pose.detectForVideo(vid,realNow).landmarks[0]||null;poseFps++;processPose(found,now)}catch(e){console.error(e);processPose(null,now)}}}
+ else{ctx.fillStyle='#030710';ctx.fillRect(0,0,W,H);ctx.fillStyle='#8198bd';ctx.font='22px sans-serif';ctx.fillText(source==='video'?'เลือกไฟล์วิดีโอเพื่อเริ่มวิเคราะห์':'เปิดกล้องเพื่อเริ่มติดตามการวิ่ง',24,46);lastLm=null}
+ drawOverlay(now);render(now)}
+setInterval(()=>{$('pfps').textContent=`FPS: กล้อง ${camFps} / AI ${poseFps}`;camFps=poseFps=0},1000);
+function startRecording(){if(source==='camera'&&!stream||source==='video'&&!videoLoaded){warn('กรุณาเตรียมแหล่งภาพก่อนบันทึกวิดีโอ');return}if(!window.MediaRecorder||!cv.captureStream){warn('เบราว์เซอร์นี้ไม่รองรับการบันทึก Canvas');return}const mime=['video/mp4;codecs=avc1.42E01E','video/mp4','video/webm;codecs=vp8','video/webm'].find(x=>MediaRecorder.isTypeSupported(x));if(!mime){warn('เบราว์เซอร์ไม่รองรับฟอร์แมตวิดีโอที่ระบบใช้');return}try{recordedChunks=[];lastVideoBlob=null;recorder=new MediaRecorder(cv.captureStream(30),{mimeType:mime,videoBitsPerSecond:3500000});recorder.ondataavailable=e=>{if(e.data.size)recordedChunks.push(e.data)};recorder.onstop=()=>{const blob=new Blob(recordedChunks,{type:mime});if(!blob.size){warn('ไม่มีข้อมูลวิดีโอที่บันทึก');return}lastVideoBlob=blob;downloadBlob(blob,`sprint-${Date.now()}.${mime.includes('mp4')?'mp4':'webm'}`);$('bRec').textContent='● บันทึกวิดีโอ'};recorder.onerror=e=>{warn('บันทึกวิดีโอผิดพลาด');console.error(e)};recorder.start(1000);$('bRec').textContent='■ หยุดบันทึก';warn(`กำลังบันทึกวิดีโอพร้อม Overlay เป็น ${mime.includes('mp4')?'MP4':'WebM'}`)}catch(e){warn(`เริ่มบันทึกไม่ได้: ${e.message}`)}}
+function stopRecording(){if(recorder?.state==='recording')recorder.stop()};$('bRec').onclick=()=>recorder?.state==='recording'?stopRecording():startRecording();
+function downloadBlob(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000)}
+const dbPromise=new Promise((resolve,reject)=>{const req=indexedDB.open('sprint_v4_results',1);req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains('runs'))req.result.createObjectStore('runs',{keyPath:'id'})};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)});
+async function dbAll(){const db=await dbPromise;return new Promise((resolve,reject)=>{const tx=db.transaction('runs','readonly'),req=tx.objectStore('runs').getAll();req.onsuccess=()=>resolve(req.result.sort((a,b)=>b.id-a.id));req.onerror=()=>reject(req.error)})}
+async function dbPut(data){const db=await dbPromise;return new Promise((resolve,reject)=>{const tx=db.transaction('runs','readwrite');tx.objectStore('runs').put(data);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)})}
+async function dbDelete(id){const db=await dbPromise;return new Promise((resolve,reject)=>{const tx=db.transaction('runs','readwrite');tx.objectStore('runs').delete(id);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)})}
+async function history(){try{const rows=await dbAll(),container=$('hist');container.replaceChildren();if(!rows.length){container.innerHTML='<p class="empty">ยังไม่มีประวัติการทดสอบ</p>';return}const table=document.createElement('table'),thead=document.createElement('thead');thead.innerHTML='<tr><th>ชื่อ / วันที่</th><th>ระยะ</th><th>เวลา</th><th>กม./ชม.</th><th>รูปแบบ</th><th>ลบ</th></tr>';table.append(thead);const tbody=document.createElement('tbody');for(const r of rows){const tr=document.createElement('tr');for(const val of [`${r.name} · ${new Date(r.date).toLocaleString('th-TH')}`,`${r.distance} ม.`,r.seconds.toFixed(3),toKmH(r.avg).toFixed(2),r.synthetic?'SIMULATION':r.manual?'MANUAL':r.mode==='signal'?'SIGNAL':'LINE']){const td=document.createElement('td');td.textContent=val;tr.append(td)}const td=document.createElement('td'),del=document.createElement('button');del.textContent='ลบ';del.onclick=async()=>{if(confirm('ลบผลการทดสอบนี้?')){await dbDelete(r.id);await history()}};td.append(del);tr.append(td);tbody.append(tr)}table.append(tbody);container.append(table)}catch(e){warn('เรียกประวัติไม่ได้: '+e.message)}}
+$('bSave').onclick=async()=>{if(clock.state!=='FINISHED'||!clock.elapsed(performance.now())){warn('ยังไม่มีผลที่สิ้นสุดให้บันทึก');return}const seconds=clock.elapsed(performance.now())/1000;const run={id:Date.now(),name:$('name').value.trim()||'ไม่ระบุชื่อ',date:new Date().toISOString(),distance:D,seconds,avg:D/seconds,avgKmh:toKmH(D/seconds),mode:clock.mode,source,synthetic:source==='simulation',manual:clock.manualFinish,steps,cadence:steps*60/seconds,stepLength:steps?D/steps:null,kneeLeftMin:klMin,kneeRightMin:krMin,splits:Object.fromEntries(Object.entries(clock.splits).map(([k,v])=>[k,(v-clock.startAt)/1000])),calibration:structuredClone(L),series:series.slice(-10000),stepAngles:stepRecords.slice(),footEvents:footEvents.slice(),footSummary:footPhaseSummary(footEvents),accelerationSegments:accelData.slice(),accelerationAssumedRest:$('startAtRest').checked,gaitSummary:summarizeSteps(stepRecords),hasVideo:!!lastVideoBlob};try{await dbPut(run);latestSavedResult=run;lastGoalMarkupKey='';warn('บันทึกผลลงประวัติเรียบร้อย (วิดีโอดาวน์โหลดแยกต่างหาก)');await history()}catch(e){warn('บันทึกผลไม่สำเร็จ: '+e.message)}};
+$('bCsv').onclick=async()=>{const rows=await dbAll();if(!rows.length){warn('ยังไม่มีผลให้ส่งออก');return}const cols=['id','name','date','distance','seconds','avg','avgKmh','mode','source','synthetic','manual','steps','cadence','stepLength','kneeLeftMin','kneeRightMin','stepAngles','footEvents','splits'];const quote=x=>`"${String(x??'').replaceAll('"','""')}"`;const csv='\ufeff'+[cols.join(','),...rows.map(r=>cols.map(k=>quote(k==='splits'?JSON.stringify(r.splits):k==='stepAngles'?JSON.stringify(r.stepAngles??[]):k==='footEvents'?JSON.stringify(r.footEvents??[]):r[k])).join(','))].join('\r\n');downloadBlob(new Blob([csv],{type:'text/csv;charset=utf-8'}),'sprint-results.csv')};
+$('bPdf').onclick=()=>{warn('ใช้คำสั่งพิมพ์ของเบราว์เซอร์ แล้วเลือก Save as PDF');window.print()};
+
+function setSource(next){
+ if(!['simulation','video','camera'].includes(next))return;
+ simulation.running=false;simulation.paused=false;
+ if(source==='camera'&&next!=='camera')stopCam();
+ if(source==='video'&&next!=='video')vid.pause();
+ source=next;if(next==='camera'||next==='simulation'){const dims=next==='camera'?$('res').value.split('x').map(Number):[960,540];W=cv.width=dims[0];H=cv.height=dims[1];$('stage').style.aspectRatio='16/9';}clearRun();lastLm=null;lastVideoTime=-1;
+ for(const [kind,id] of [['simulation','sourceSimulation'],['video','sourceVideo'],['camera','sourceCamera']])$(id).classList.toggle('source-active',kind===source);
+ for(const [kind,id] of [['simulation','simulationTools'],['video','videoTools'],['camera','cameraTools']])$(id).hidden=kind!==source;
+ $('cameraSettings').hidden=source!=='camera';
+ $('liveIndicator').textContent=source==='simulation'?'● SIMULATION':source==='video'?'● VIDEO REPLAY':'● CAMERA OFF';
+ $('pcam').textContent=source==='simulation'?'แหล่งภาพ: จำลอง':source==='video'?'แหล่งภาพ: วิดีโอ':'กล้อง: ปิด';
+ $('modeTag').textContent=source==='simulation'?'ทดสอบจำลอง':$('mode').value==='line'?'ผ่านเส้น START':'เสียงปล่อยตัว';
+ $('bArm').disabled=source==='simulation';$('bSignal').disabled=true;
+ $('bMan').disabled=source==='simulation';
+ warn(source==='simulation'?'โหมดจำลอง ใช้ทดสอบตรรกะระบบ ไม่ใช่ผลการวิ่งจริง':'');
+}
+for(const kind of ['simulation','video','camera'])$('source'+kind[0].toUpperCase()+kind.slice(1)).onclick=()=>setSource(kind);
+$('bSimStart').onclick=()=>{
+ setSource('simulation');
+ const dur=Number($('simDuration').value);if(!Number.isFinite(dur)||dur<3||dur>60){warn('กำหนดเวลา 3–60 วินาที');return}
+ simulation={running:true,paused:false,start:performance.now(),pauseAt:0,elapsed:0,lastElapsed:0,progress:-.12};
+ clock.arm($('mode').value);if(clock.mode==='signal'){clock.signal(simulation.start);beep()}
+ warn('กำลังจำลองการวิ่ง • ผลเป็นข้อมูลสังเคราะห์ ใช้ทดสอบระบบเท่านั้น');
+};
+$('bSimPause').onclick=()=>{if(source!=='simulation'||!simulation.running)return;if(!simulation.paused){simulation.paused=true;simulation.pauseAt=performance.now();$('bSimPause').textContent='▶ เล่นต่อ'}else{simulation.start+=performance.now()-simulation.pauseAt;simulation.paused=false;$('bSimPause').textContent='⏸ หยุดจำลอง'}};
+$('videoFile').onchange=async e=>{
+ const file=e.target.files?.[0];if(!file)return;
+ if(!file.type.startsWith('video/')&&!/\.(mp4|webm|mov|m4v)$/i.test(file.name)){warn('กรุณาเลือกไฟล์วิดีโอ');return}
+ setSource('video');if(videoObjectUrl)URL.revokeObjectURL(videoObjectUrl);
+ videoObjectUrl=URL.createObjectURL(file);stopCam();vid.srcObject=null;vid.src=videoObjectUrl;vid.load();videoLoaded=false;
+ $('videoInfo').textContent=`เลือกไฟล์: ${file.name} (${(file.size/1048576).toFixed(1)} MB) · กำลังอ่านข้อมูล`;
+ void initPose();
+};
+vid.addEventListener('loadedmetadata',()=>{if(source!=='video')return;videoLoaded=true;W=cv.width=vid.videoWidth||960;H=cv.height=vid.videoHeight||540;$('stage').style.aspectRatio=`${W}/${H}`;$('videoInfo').textContent=`วิดีโอพร้อม: ${vid.duration.toFixed(2)} วินาที • ${W}×${H} • กด ARM แล้วกด เล่น`;warn('ตั้งเส้น START / FINISH ให้ตรงกับวิดีโอ แล้วกด ARM และเล่น')});
+$('bVideoPlay').onclick=async()=>{if(source!=='video'||!videoLoaded){warn('กรุณาเลือกวิดีโอก่อน');return}if(vid.paused){try{await vid.play()}catch(e){warn('เล่นวิดีโอไม่ได้: '+e.message)}}else vid.pause()};
+$('bVideoRestart').onclick=()=>{if(source!=='video'||!videoLoaded)return;vid.pause();vid.currentTime=0;lastVideoTime=-1;clearRun();warn('ย้อนกลับจุดเริ่มต้นแล้ว กด ARM ก่อนเล่นอีกครั้ง')};
+vid.addEventListener('seeked',()=>{if(source!=='video')return;lastVideoTime=-1;if(['RUNNING','ARMED'].includes(clock.state)){clearRun();warn('เปลี่ยนตำแหน่งวิดีโอ ต้องกด ARM ใหม่เพื่อป้องกันข้อมูลเวลาไม่ต่อเนื่อง')}});
+vid.addEventListener('ended',()=>{if(source==='video'&&clock.state==='RUNNING')warn('วิดีโอสิ้นสุดแต่ไม่ตรวจพบ FINISH • กดหยุดด้วยมือได้ ผลจะระบุ MANUAL')});
+setSource('simulation');
+// Start the interface immediately; load stored history asynchronously.
+void history();
+void dbAll().then(rows=>{latestSavedResult=rows[0]??null;updateGoalInputs('total')}).catch(e=>console.warn('History:',e));
+updateGoalInputs('total');
+loop();
+
+</script></body></html>
